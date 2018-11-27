@@ -6,14 +6,19 @@ var logger = require('morgan');
 var app = express();
 
 require('dotenv').config();
-// require('./config/database');
+require('./config/database');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.use('/api', require('./routes/api'));
+// Put API routes here, before the "catch all" route
+app.use('/api/users', require('./routes/api/users'));
+
+app.use(require('./config/auth'));
+
+app.use('/api', require('./routes/api/api'));
 
 // Catch all route 
 app.get('/*', function (req, res) {
