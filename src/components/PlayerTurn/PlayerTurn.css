@@ -1,0 +1,11 @@
+.PlayerTurn {
+    width: 26%;
+}
+
+#turn {
+    font-size: 140%;
+    background-color: #20B279;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+}

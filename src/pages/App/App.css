@@ -1,5 +1,14 @@
+* {
+  border: 1px solid black;
+  font-family: 'Roboto', sans-serif;
+}
+
 .App {
   text-align: center;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100%;
 }
 
 header {
@@ -16,3 +25,7 @@ header {
   justify-content: center;
   align-items: center;
 }
+/* teal: #20B279 */
+/* tan: #FCEFD3 */
+/* dark orange: #ED7D54 */
+/* background: #FFE09D */

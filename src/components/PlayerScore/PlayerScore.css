@@ -1,0 +1,10 @@
+.PlayerScore {
+    width: 20%;
+    height: 100%;
+    color: grey;
+    font-size: 200%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}

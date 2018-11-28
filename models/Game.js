@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const wordSchema = new Schema({
     word: String,
     score: Number,
+    time: Number,
     challengeIndex: { type: Number, default: 0 }
 })
 

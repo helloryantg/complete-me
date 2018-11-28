@@ -1,11 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import './GamePage.css';
+import Header from '../../components/Header/Header';
+import GameBoard from '../../components/GameBoard/GameBoard';
+import Footer from '../../components/Footer/Footer';
 
 const GamePage = props => {
     return (
         <div className="GamePage">
-            <Link to='/login'>LOG IN</Link>
-            <Link to='/signup'>SIGN UP</Link>
+            <Header />
+            <GameBoard />
+            <Footer />
         </div>
     );
 }
