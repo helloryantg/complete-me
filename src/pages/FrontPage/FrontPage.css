@@ -1,0 +1,21 @@
+.FrontPage {
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.FrontPage .links {
+    background-color: #FCEFD3;
+    width: 240px;
+    height: 60px;
+    margin: 20px auto 0; 
+    border-radius: 10px;
+    border-bottom: 4px solid #EDA754;
+    color: #ED7D54;
+    font-size: 200%;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

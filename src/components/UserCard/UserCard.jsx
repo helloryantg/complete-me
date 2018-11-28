@@ -4,7 +4,8 @@ import './UserCard.css';
 const UserCard = props => {
     return (
         <div className="UserCard">
-            <p>This is the UserCard component</p>
+            <p>UserCard</p>
+            <h4>Username</h4>
         </div>
     );
 }

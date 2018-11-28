@@ -10,6 +10,7 @@ import './App.css';
 import GamePage from '../GamePage/GamePage';
 import SignupPage from '../SignupPage/SignupPage';
 import LoginPage from '../LoginPage/LoginPage';
+import FrontPage from '../FrontPage/FrontPage';
 
 class App extends Component {
   constructor(props) {
@@ -42,7 +43,10 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path='/' render={() =>
-              <GamePage /> 
+              <FrontPage />
+            } />
+            <Route exact path='/playgame' render={() =>
+              <GamePage />
             } />
             <Route exact path ='/signup' render={({history}) => 
               <SignupPage 

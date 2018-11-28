@@ -1,3 +1,19 @@
 .Challenge {
-    height: 60px;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Challenge p {
+    font-weight: 700;
+    margin: 4px;
+}
+
+.multiplier {
+    border: 4px solid red;
+    border-radius: 6px;
+    padding: 2px;
+    color: red;
+    font-weight: 700;
 }

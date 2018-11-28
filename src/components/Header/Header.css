@@ -1,5 +1,7 @@
 .Header {
     height: 24vh;
+    width: 90%;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;

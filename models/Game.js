@@ -10,7 +10,8 @@ const wordSchema = new Schema({
 
 const challengeSchema = new Schema({
     text: String,
-    multiplier: Number
+    multiplier: Number,
+    color: String
 })
 
 const gameSchema = new Schema({

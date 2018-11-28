@@ -1,3 +1,20 @@
 .MiddleHeader {
-    width: 60%;
-}  
+    width: 100%;
+    height: 100%;
+}
+
+.MiddleHeader h2 {
+    width: 200px;
+    height: 30px;
+    margin: 0 auto;
+    color: white;
+    background-color: #20B279;
+    border-radius: 8px;
+    padding: 2px 8px;
+}
+
+#timer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

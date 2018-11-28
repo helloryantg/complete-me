@@ -28,7 +28,7 @@ class SignupForm extends Component {
       // successfully signed up - show GamePage
       .then(() => {
         this.props.handleSignupOrLogin();
-        this.props.history.push('/');
+        this.props.history.push('/playgame');
       })
       // invalid user data
       .catch(err => this.props.updateMessage(err.message));
