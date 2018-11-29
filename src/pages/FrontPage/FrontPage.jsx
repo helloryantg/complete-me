@@ -5,20 +5,20 @@ import { Link } from 'react-router-dom';
 const FrontPage = props => {
     return (
         <div className="FrontPage">
-            <div className="links">
-                <Link to='/login'>LOG IN</Link>
-            </div>
-            <div>
-                <div>W</div>
-                <div>E</div>
-                <div>L</div>
-                <div>C</div>
-                <div>O</div>
-                <div>M</div>
-                <div>E</div>
+            <div className="fp-letter-container">
+                <div className="letter-outer"><div className="letter-inner">W</div></div>
+                <div className="letter-outer"><div className="letter-inner">E</div></div>
+                <div className="letter-outer"><div className="letter-inner">L</div></div>
+                <div className="letter-outer"><div className="letter-inner">C</div></div>
+                <div className="letter-outer"><div className="letter-inner">O</div></div>
+                <div className="letter-outer"><div className="letter-inner">M</div></div>
+                <div className="letter-outer"><div className="letter-inner">E</div></div>
             </div>
             <div className="links">
-                <Link to='/signup'>SIGN UP</Link>
+                <Link className="login" to='/login'>LOG IN</Link>
+            </div>
+            <div className="links">
+                <Link className="signup" to='/signup'>SIGN UP</Link>
             </div>
         </div>
     );

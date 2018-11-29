@@ -8,17 +8,21 @@ import {
 import userService from '../../utils/userService';
 import './App.css';
 import GamePage from '../GamePage/GamePage';
+import NewGamePage from '../NewGamePage/NewGamePage';
 import SignupPage from '../SignupPage/SignupPage';
 import LoginPage from '../LoginPage/LoginPage';
 import FrontPage from '../FrontPage/FrontPage';
+import socket from '../../utils/socket';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // Put state in here
+      game: null
     }
   }
+
+  /*----- Login/Logout -----*/
 
   handleLogout = () => {
     userService.logout();
@@ -29,11 +33,21 @@ class App extends Component {
     this.setState({user: userService.getUser()});
   }
 
+  /*----- Socket.io -----*/
+
+  sendGameData = () => {
+    socket.emit('gameData', this.state.game);
+  }
+
   /*----- Lifecycle Methods -----*/
 
   componentDidMount() {
     let user = userService.getUser();
     this.setState({user});
+
+    socket.on('gameData', (game) => {
+      this.setState({game});
+    });
   }
   
   render() {
@@ -44,6 +58,9 @@ class App extends Component {
           <Switch>
             <Route exact path='/' render={() =>
               <FrontPage />
+            } />
+            <Route exact path='/newgame' render={() =>
+              <NewGamePage />
             } />
             <Route exact path='/playgame' render={() =>
               <GamePage />
