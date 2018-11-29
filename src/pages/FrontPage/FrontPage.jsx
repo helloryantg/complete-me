@@ -11,7 +11,6 @@ const FrontPage = props => {
                 <div className="letter-outer"><div className="letter-inner">E</div></div>
                 <div className="first-last letter-outer"><div className="letter-inner">W</div></div>
             </div>
-            
             <div className="fp-letter-container">
                 <div className="first-last letter-outer"><div className="letter-inner">G</div></div>
                 <div className="letter-outer"><div className="letter-inner">A</div></div>
@@ -19,9 +18,7 @@ const FrontPage = props => {
                 <div className="letter-outer"><div className="letter-inner">E</div></div>
             </div>
 
-            <div className="links create-game">
-                <button onClick={props.handleCreateGameClick}>CREATE GAME</button>
-            </div>
+            <button className="links create-game" onClick={props.handleCreateGameClick}>CREATE GAME</button>
             <div className="links join-game">
                 <Link to='/join'>JOIN GAME</Link>
             </div>

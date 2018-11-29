@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  // Redirect
 } from 'react-router-dom';
 import userService from '../../utils/userService';
 import './App.css';
@@ -15,8 +15,6 @@ import FrontPage from '../FrontPage/FrontPage';
 import JoinGamePage from '../JoinGamePage/JoinGamePage';
 import gameService from '../../utils/gameService';
 
-// import CreateGamePage from '../CreateGamePage/CreateGamePage';
-// import NewGamePage from '../NewGamePage/NewGamePage';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +25,7 @@ class App extends Component {
 
   handleCreateGameClick = (e) => {
     e.preventDefault();
-    gameService.createGame();
+    gameService.createGame(this.state.user);
   }
 
 /*----- Login/Logout -----*/

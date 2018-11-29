@@ -12,3 +12,10 @@
 .LoginPage .fp-letter-container .first-last {
     background-color: #20B279;
 }
+
+.LoginPage input {
+    height: 40px;
+    width: 220px;
+    font-size: 130%;
+    margin: 8px 0;
+}

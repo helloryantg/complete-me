@@ -1,10 +1,17 @@
 .FrontPage {
     height: 60vh;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     margin-top: 40px;
-    margin: 0 auto;}
+    margin: 0 auto;
+}
+
+.FrontPage .fp-letter-container {
+    display: flex;
+    justify-content: center;
+}
 
 .FrontPage .links {
     background-color: #FCEFD3;
@@ -44,4 +51,5 @@
 
 .FrontPage .create-game {
     background-color: #20B279;
+    color: #FCEFD3;
 }

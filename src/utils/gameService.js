@@ -1,24 +1,24 @@
-import tokenService from './tokenService';
+// import tokenService from './tokenService';
+import socket from './socket';
 
-const BASE_URL = '/api/games';
+// const BASE_URL = '/api/games';
 
 export default {
     createGame
 };
 
-function createGame(game) {
-    var options = getAuthRequestOptions('POST');
-    options.body = JSON.stringify(game);
-    fetch(BASE_URL, options);
+function createGame(user) {
+    socket.emit('createGame', user);
 }
 
 /*--- Helper Functions ---*/
 
-function getAuthRequestOptions(method) {
-    var options = {
-        method,
-        headers: new Headers({'Authorization': 'Bearer ' + tokenService.getToken()}) 
-    };
-    if (method === 'POST') options.headers.append('Content-Type', 'application/json');
-    return options;
-}
+// function getAuthRequestOptions(method) {
+//     var options = {
+//         method,
+//         headers: new Headers({'Authorization': 'Bearer ' + tokenService.getToken()}) 
+//     };
+//     console.log(options);
+//     if (method === 'POST') options.headers.append('Content-Type', 'application/json');
+//     return options;
+// }

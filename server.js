@@ -1,12 +1,13 @@
 var express = require('express');
 var path = require('path');
 var http = require('http');
+// var request = require('request');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 
 var app = express();
 var httpServer = http.Server(app);
-require('./io')(httpServer);
+require('./io').init(httpServer);
 
 require('dotenv').config();
 require('./config/database');
@@ -18,9 +19,8 @@ app.use(express.static(path.join(__dirname, 'build')));
 
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
-app.use('/api/games', require('./routes/api/games'));
-
 app.use(require('./config/auth'));
+app.use('/api/games', require('./routes/api/games'));
 
 // Catch all route 
 app.get('/*', function (req, res) {
