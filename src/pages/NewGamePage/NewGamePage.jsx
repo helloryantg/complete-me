@@ -7,24 +7,24 @@ const NewGamePage = props => {
     return (
         <div className="NewGamePage">
             <div className="fp-letter-container">
-                <div className="letter-outer"><div className="letter-inner">N</div></div>
+                <div className="first-last letter-outer"><div className="letter-inner">N</div></div>
                 <div className="letter-outer"><div className="letter-inner">E</div></div>
-                <div className="letter-outer"><div className="letter-inner">W</div></div>
+                <div className="first-last letter-outer"><div className="letter-inner">W</div></div>
             </div>
+            
             <div className="fp-letter-container">
-                <div className="letter-outer"><div className="letter-inner">G</div></div>
+                <div className="first-last letter-outer"><div className="letter-inner">G</div></div>
                 <div className="letter-outer"><div className="letter-inner">A</div></div>
-                <div className="letter-outer"><div className="letter-inner">M</div></div>
+                <div className="first-last letter-outer"><div className="letter-inner">M</div></div>
                 <div className="letter-outer"><div className="letter-inner">E</div></div>
             </div>
             
-            <div className="links">
-                <Link to='/create'>CREATE GAME</Link>
+            <div className="links create-game">
+                <Link onClick={() => props.handleCreateGame } to='/create'>CREATE GAME</Link>
             </div>
-            <div className="links">
+            <div className="links join-game">
                 <Link to='/join'>JOIN GAME</Link>
             </div>
-
         </div>
     );
 }

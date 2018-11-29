@@ -7,12 +7,15 @@ import {
 } from 'react-router-dom';
 import userService from '../../utils/userService';
 import './App.css';
+import socket from '../../utils/socket';
 import GamePage from '../GamePage/GamePage';
 import NewGamePage from '../NewGamePage/NewGamePage';
 import SignupPage from '../SignupPage/SignupPage';
 import LoginPage from '../LoginPage/LoginPage';
 import FrontPage from '../FrontPage/FrontPage';
-import socket from '../../utils/socket';
+import CreateGamePage from '../CreateGamePage/CreateGamePage';
+import JoinGamePage from '../JoinGamePage/JoinGamePage';
+import gameService from '../../utils/gameService';
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +25,23 @@ class App extends Component {
     }
   }
 
-  /*----- Login/Logout -----*/
+  handleCreateGameClick = () => {
+    console.log('handle create game clicked!');
+    
+    gameService.createGame(this.state.game)
+
+    fetch('/api/games/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify()
+    })
+    .then(res => res.json())
+    .then(game => {
+      this.setState({ game });
+    });
+  }
+
+/*----- Login/Logout -----*/
 
   handleLogout = () => {
     userService.logout();
@@ -60,7 +79,16 @@ class App extends Component {
               <FrontPage />
             } />
             <Route exact path='/newgame' render={() =>
-              <NewGamePage />
+              <NewGamePage 
+                handleCreateGameClick={this.handleCreateGameClick}
+              />
+            } />
+            <Route exact path='/create' render={() =>
+              <CreateGamePage 
+              />
+            } />
+            <Route exact path='/join' render={() =>
+              <JoinGamePage />
             } />
             <Route exact path='/playgame' render={() =>
               <GamePage />

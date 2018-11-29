@@ -51,3 +51,11 @@ html {
   font-weight: 700;
   color: #EDA754;  
 }
+
+.first-last {
+  background-color: #ED7D54;
+}
+
+.first-last .letter-inner {
+  color: #FCEFD3;
+}

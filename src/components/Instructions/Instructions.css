@@ -1,0 +1,17 @@
+.Instructions {
+    width: 50%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.game-rules {
+    width: 70%;
+    margin: 0 auto;
+    background-color: #FCEFD3;
+    padding: 20px;
+    border-radius: 10px;
+    color: #ED7D54;
+    line-height: 30px;
+}

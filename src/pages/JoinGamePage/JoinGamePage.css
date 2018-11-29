@@ -1,4 +1,4 @@
-.NewGamePage {
+.JoinGamePage {
     height: 60vh;
     display: flex;
     flex-direction: column;
@@ -6,12 +6,7 @@
     margin-top: 40px;
 }
 
-.NewGamePage a {
-    text-decoration: none;
-    color: white;
-}
-
-.NewGamePage .links {
+.JoinGamePage .links {
     background-color: #FCEFD3;
     width: 240px;
     height: 60px;
@@ -24,12 +19,4 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.NewGamePage .join-game {
-    background-color: #ED7D54;
-}
-
-.NewGamePage .create-game {
-    background-color: #20B279;
 }

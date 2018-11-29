@@ -1,9 +1,5 @@
 .FrontPage {
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    margin-top: 40px;
+    display: flex;   
 }
 
 .FrontPage .links {
@@ -19,4 +15,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.FrontPage .login {
+    background-color: #20B279;
+}
+
+.FrontPage .signup {
+    background-color: #ED7D54;
+}
+
+.FrontPage a {
+    text-decoration: none;
+    color: #FCEFD3;
+}
+
+.FrontPage .login-signup {
+    width: 50%;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 40px;
 }

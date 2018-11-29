@@ -1,15 +1,14 @@
 module.exports = function(httpServer) {
-    const io = require('socket.io')(httpServer);
-    
-    var games = {};
-
-    io.on('connection', function(socket) {
-      socket.on('gameData', function(game) {
-        io.emit('gameData', game);
-      });
-    });
-  };
+  const io = require('socket.io')(httpServer);
   
+  var games = {};
+
+  io.on('connection', function(socket) {
+    socket.on('gameData', function(game) {
+      io.emit('gameData', game);
+    });
+  });
+};
 
 //   socket.on('register-player', function(initials) {
 //     players[socket.id] = initials;

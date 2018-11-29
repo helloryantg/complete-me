@@ -1,0 +1,14 @@
+.LoginPage {
+    height: 60vh;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.LoginPage .fp-letter-container {
+    margin: 40px 0;
+}
+
+.LoginPage .fp-letter-container .first-last {
+    background-color: #20B279;
+}
