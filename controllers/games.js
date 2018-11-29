@@ -5,16 +5,27 @@ module.exports = {
 }
 
 function createGame(req, res) {
-    Game.create(req.body)
-    .then(game => {
-        res.json(game);
+    console.log(req.user);
+    var game = new Game({
+        user: req.user
     })
-    .catch(err => {
-        res.json({error: err});
-    });
+    game.save(function(err) {
+        if (err) return handleError(err);
+    })
+    
+    // Game.save()
+    // .then(game => {
+    //     res.json(game);
+    // })
+    // .catch(err => {
+    //     res.json({error: err});
+    // });
 }   
 
 // function getAllGames(req, res, next) {
 //     Game.find({})
 //         .then(games => {res.json(games)});
 // }
+
+// Waiting room component
+// this.state.game.players.length > 1

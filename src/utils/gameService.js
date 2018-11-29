@@ -1,25 +1,24 @@
 import tokenService from './tokenService';
 
-const BASE_URL = 'api/games';
+const BASE_URL = '/api/games';
 
 export default {
     createGame
 };
 
-function createGame() {
-    return fetch(BASE_URL, getAuthRequestOptions('POST'))
-    .then(res => {
-        if (res.ok) return res.json();
-        throw new Error('Authorization Required');
-    })
-    .then(game => game);
+function createGame(game) {
+    var options = getAuthRequestOptions('POST');
+    options.body = JSON.stringify(game);
+    fetch(BASE_URL, options);
 }
 
 /*--- Helper Functions ---*/
 
 function getAuthRequestOptions(method) {
-    return {
+    var options = {
         method,
         headers: new Headers({'Authorization': 'Bearer ' + tokenService.getToken()}) 
     };
+    if (method === 'POST') options.headers.append('Content-Type', 'application/json');
+    return options;
 }

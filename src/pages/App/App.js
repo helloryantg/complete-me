@@ -3,20 +3,20 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  // Redirect
+  Redirect
 } from 'react-router-dom';
 import userService from '../../utils/userService';
 import './App.css';
 import socket from '../../utils/socket';
 import GamePage from '../GamePage/GamePage';
-import NewGamePage from '../NewGamePage/NewGamePage';
 import SignupPage from '../SignupPage/SignupPage';
 import LoginPage from '../LoginPage/LoginPage';
 import FrontPage from '../FrontPage/FrontPage';
-import CreateGamePage from '../CreateGamePage/CreateGamePage';
 import JoinGamePage from '../JoinGamePage/JoinGamePage';
 import gameService from '../../utils/gameService';
 
+// import CreateGamePage from '../CreateGamePage/CreateGamePage';
+// import NewGamePage from '../NewGamePage/NewGamePage';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,20 +25,9 @@ class App extends Component {
     }
   }
 
-  handleCreateGameClick = () => {
-    console.log('handle create game clicked!');
-    
-    gameService.createGame(this.state.game)
-
-    fetch('/api/games/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify()
-    })
-    .then(res => res.json())
-    .then(game => {
-      this.setState({ game });
-    });
+  handleCreateGameClick = (e) => {
+    e.preventDefault();
+    gameService.createGame();
   }
 
 /*----- Login/Logout -----*/
@@ -64,6 +53,9 @@ class App extends Component {
     let user = userService.getUser();
     this.setState({user});
 
+    // get active game from server if there is one
+    if (user) socket.emit('getActiveGame', user._id);
+
     socket.on('gameData', (game) => {
       this.setState({game});
     });
@@ -76,15 +68,10 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path='/' render={() =>
-              <FrontPage />
-            } />
-            <Route exact path='/newgame' render={() =>
-              <NewGamePage 
+              <FrontPage 
+                user={this.state.user}
+                handleLogout={this.handleLogout} 
                 handleCreateGameClick={this.handleCreateGameClick}
-              />
-            } />
-            <Route exact path='/create' render={() =>
-              <CreateGamePage 
               />
             } />
             <Route exact path='/join' render={() =>

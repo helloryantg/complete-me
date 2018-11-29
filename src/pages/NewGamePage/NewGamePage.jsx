@@ -20,7 +20,8 @@ const NewGamePage = props => {
             </div>
             
             <div className="links create-game">
-                <Link onClick={() => props.handleCreateGame } to='/create'>CREATE GAME</Link>
+                <button onClick={props.handleCreateGameClick}>CREATE GAME</button>
+                {/* <Link  to='/create'>CREATE GAME</Link> */}
             </div>
             <div className="links join-game">
                 <Link to='/join'>JOIN GAME</Link>

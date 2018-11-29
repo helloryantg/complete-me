@@ -25,7 +25,7 @@ class LoginPage extends Component {
       // successfully signed up - show GamePage
       .then(() => {
         this.props.handleSignupOrLogin();
-        this.props.history.push('/newgame');
+        this.props.history.push('/');
       })
       // invalid user data
       .catch(err => alert('Invalid Credentials'));

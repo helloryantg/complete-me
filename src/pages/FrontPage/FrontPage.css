@@ -1,6 +1,10 @@
 .FrontPage {
-    display: flex;   
-}
+    height: 60vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 40px;
+    margin: 0 auto;}
 
 .FrontPage .links {
     background-color: #FCEFD3;
@@ -30,11 +34,14 @@
     color: #FCEFD3;
 }
 
-.FrontPage .login-signup {
-    width: 50%;
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    margin-top: 40px;
+.FrontPage .logout {
+    background-color: #ED7D54;
+}
+
+.FrontPage .join-game {
+    background-color: #20B279;
+}
+
+.FrontPage .create-game {
+    background-color: #20B279;
 }

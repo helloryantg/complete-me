@@ -4,7 +4,12 @@ module.exports = function(httpServer) {
   var games = {};
 
   io.on('connection', function(socket) {
-    socket.on('gameData', function(game) {
+    socket.on('getActiveGame', function(userId) {
+      var game = Object.values(games).find(g => g.players.some(p => p.id === userId));
+      if (game) {
+        socket.gameId = game._id;
+        socket.join(game._id);
+      }
       io.emit('gameData', game);
     });
   });

@@ -14,11 +14,16 @@ const challengeSchema = new Schema({
     color: String
 })
 
+const playerSchema = new Schema({
+    id: String,
+    name: String,
+    wordList: [wordSchema],
+});
+
 const gameSchema = new Schema({
-    playerOne: [wordSchema],
-    playerTwo: [wordSchema],
+    players: [playerSchema],
     challenges: [challengeSchema],
-    playerOneTurn: Boolean
+    turnIdx: {type: Number, default: 0}
 });
 
 module.exports = mongoose.model('Game', gameSchema);
