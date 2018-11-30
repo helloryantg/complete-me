@@ -42,11 +42,36 @@ module.exports = {
           name: user.name,
           id: user.id
         });
-        console.log(game);
         socket.join(gameCode);
-        io.emit('gameData', game);
+        io.to(game.id).emit('gameData', game);
         game.save();
       });
+
+      socket.on('characterPressed', function(character) {
+        var game = games[socket.gameId];
+        game.currentWord += character;
+        io.to(game.id).emit('gameData', game);
+        game.save();
+      })
+      
+      socket.on('onEnter', function() {
+        var game = games[socket.gameId];
+        game.players[0].wordList.push({
+          word: game.currentWord
+        });
+        game.currentWord = '';
+        io.to(game.id).emit('gameData', game);
+        game.save();
+      })
+      
+      socket.on('backspace', function() {
+        var game = games[socket.gameId];
+        var removedLast = game.currentWord.substring(0, game.currentWord.length - 1);
+        game.currentWord = removedLast;
+        io.to(game.id).emit('gameData', game);
+        game.save();
+      })
+
 
     });
   },

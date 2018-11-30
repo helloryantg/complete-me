@@ -6,18 +6,25 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid red;
-    flex-wrap: wrap;
 }
 
 .GameBoard input {
     height: 30px;
-    width: 400px;
-    border: 1px solid red;
-    z-index: 1;
+    width: 200px;
+    text-align: center;
+    position: relative;
+    top: 40px;
+    background-color: #ED7D54;
+    color: #FCEFD3;
+    font-size: 180%;
+    visibility: hidden;
 }
 
 .GameBoard .fp-letter-container {
-    position: relative;
-    z-index: 999;
+    width: 100%;
+    height: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

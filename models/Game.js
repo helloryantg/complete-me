@@ -18,14 +18,13 @@ const playerSchema = new Schema({
     name: String,
     time: {type: Number, default: 30},
     wordList: [wordSchema],
-    currentWord: String
 });
 
 const gameSchema = new Schema({
     players: [playerSchema],
     challenges: [challengeSchema],
     turnIdx: {type: Number, default: 0},
-    gameList: [String]
+    currentWord: {type: String, default: ''}
 });
 
 module.exports = mongoose.model('Game', gameSchema);

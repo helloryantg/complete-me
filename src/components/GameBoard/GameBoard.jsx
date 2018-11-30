@@ -1,45 +1,35 @@
 import React, { Component } from 'react';
 import './GameBoard.css';
-// import Letter from '../Letter/Letter';
+import socket from '../../utils/socket';
 
 class GameBoard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentWord: ''
-        }
-    }
-
-    handleChange = (e) => {
-        this.setState({
-            currentWord: e.target.value
-        })
-    }
-
-    handleWordSubmit = (e) => {
-        // Submit the word when enter is pressed
-        // console.log('Submit: ' + currentWord);
-    }
-    
     handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            this.handleWordSubmit();
-            this.setState({
-                currentWord: ''
-            })
-            // This is where to check if the word is correct    
+            socket.emit('onEnter');
+        } else if (e.keyCode >= 65 && e.keyCode <= 90) {
+            socket.emit('characterPressed', e.key.toUpperCase());            
+        } else if (e.keyCode === 8) {
+            socket.emit('backspace');
         }
+    }
+
+    componentDidMount() {
+        window.document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        window.document.removeEventListener('keydown', this.handleKeyDown);
     }
 
     render() {
         return (
-            <div className="GameBoard">
+            <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                 <div className="fp-letter-container">
-                    {this.state.currentWord.toUpperCase().split('').map(letter => 
-                        <div className="letter">{letter}</div>
+                    {this.props.game.currentWord.split('').map((letter, idx) => 
+                        <div key={idx} className="letter">{letter}</div>
                     )}
                 </div>
-                <input className="current-word" type="text" name="currentWord" value={this.state.currentWord} onChange={this.handleChange} onKeyDown={this.handleKeyDown}/>
+                <input className="current-word" type="text" name="currentWord" onChange={this.handleChange} autoFocus/>
             </div>
         );
     }
