@@ -35,11 +35,11 @@ class LoginPage extends Component {
     return (
       <div className="LoginPage">
         <div className="fp-letter-container">
-          <div className="first-last letter-outer"><div className="letter-inner">L</div></div>
-          <div className="letter-outer"><div className="letter-inner">O</div></div>
-          <div className="first-last letter-outer"><div className="letter-inner">G</div></div>
-          <div className="letter-outer"><div className="letter-inner">I</div></div>
-          <div className="first-last letter-outer"><div className="letter-inner">N</div></div>
+          <div className="first-last letter">L</div>
+          <div className="letter">O</div>
+          <div className="first-last letter">G</div>
+          <div className="letter">I</div>
+          <div className="first-last letter">N</div>
         </div>
 
         <form onSubmit={this.handleSubmit} >

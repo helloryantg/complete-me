@@ -31,6 +31,14 @@ module.exports = {
         });
       });
 
+      socket.on('joinGame', function(userId, gameCode) {
+        var game = Object.values(games).find(g => g._id.some(p => p.id === userId));
+        if (game) {
+          socket.join(game._id);
+        }
+        io.emit('gameData', game);
+      })
+
     })
   },
   

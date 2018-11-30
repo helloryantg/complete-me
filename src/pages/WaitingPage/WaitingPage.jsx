@@ -5,19 +5,22 @@ const WaitingPage = props => {
     return (
         <div className="WaitingPage">
             <div className="fp-letter-container">
-                <div className="first-last letter-outer"><div className="letter-inner">N</div></div>
-                <div className="letter-outer"><div className="letter-inner">O</div></div>
-                <div className="first-last letter-outer"><div className="letter-inner">W</div></div>
+                <div className="first-last letter">N</div>
+                <div className="letter">O</div>
+                <div className="first-last letter">W</div>
             </div>
             <div className="fp-letter-container">
-                <div className="letter-outer"><div className="letter-inner">W</div></div>
-                <div className="first-last letter-outer"><div className="letter-inner">A</div></div>
-                <div className="letter-outer"><div className="letter-inner">I</div></div>
-                <div className="first-last letter-outer"><div className="letter-inner">T</div></div>
-                <div className="letter-outer"><div className="letter-inner">I</div></div>
-                <div className="first-last letter-outer"><div className="letter-inner">N</div></div>
-                <div className="letter-outer"><div className="letter-inner">G</div></div>
+                <div className="letter">W</div>
+                <div className="first-last letter">A</div>
+                <div className="letter">I</div>
+                <div className="first-last letter">T</div>
+                <div className="letter">I</div>
+                <div className="first-last letter">N</div>
+                <div className="letter">G</div>
             </div>
+
+            <div className="gameCode">{props.game._id}</div>
+            <p className="game-text">Send this code to your opponent to begin!</p>
         </div>
     );
 }

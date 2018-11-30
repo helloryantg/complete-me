@@ -1,6 +1,23 @@
 .WaitingPage {
     height: 60vh;
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+}
+
+.WaitingPage .gameCode {
+    background-color: #FCEFD3;
+    padding: 20px;
+    color: #20B279;
+    font-weight: 700;
+    font-size: 200%;
+    border-radius: 10px;
+    margin: 40px 0;
+}
+
+.WaitingPage .game-text {
+    color: #ED7D54;
+    font-size: 120%;
+    font-weight: 700;
 }

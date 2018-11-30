@@ -33,22 +33,9 @@ class App extends Component {
 
   handleJoinGameClick = (e) => {
     e.preventDefault();
-    gameService.joinGame(this.state.user);
-
+    console.log(e.target.gameCode);
+    gameService.joinGame(this.state.user, e.target.body);
   }
-
-  // This is copied from the signup form
-  // handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   userService.signup(this.state)
-  //     // successfully signed up - show GamePage
-  //     .then(() => {
-  //       this.props.handleSignupOrLogin();
-  //       this.props.history.push('/');
-  //     })
-  //     // invalid user data
-  //     .catch(err => this.props.updateMessage(err.message));
-  // }
 
 /*----- Login/Logout -----*/
 
@@ -95,7 +82,7 @@ class App extends Component {
         user={this.state.user}
       />;
     } else if (game && game.players.length === 1) {
-      page = <WaitingPage />
+      page = <WaitingPage game={this.state.game}/>
     } else {
       // no game
       // refreshing the game while on waiting doesn't do it
@@ -105,7 +92,6 @@ class App extends Component {
         handleCreateGameClick={this.handleCreateGameClick}
         handleJoinGameClick={this.handleJoinGameClick}
       />;
-      // add code to input join game in frontpage
       // code is game id and 2nd player user id
     }
 

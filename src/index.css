@@ -24,7 +24,6 @@ html {
 }
 
 * {
-  /* border: 1px solid black; */
   font-family: 'Roboto', sans-serif;
 }
 
@@ -33,7 +32,7 @@ html {
   display: flex;
 }
 
-.letter-outer {
+.letter {
   background-color: #FCEFD3;
   height: 44px;
   width: 44px;
@@ -43,9 +42,6 @@ html {
   align-items: center;
   margin: 2px;
   border-bottom: 4px solid #EDA754;
-}
-
-.letter-inner {
   font-size: 2em;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
@@ -54,8 +50,5 @@ html {
 
 .first-last {
   background-color: #ED7D54;
-}
-
-.first-last .letter-inner {
   color: #FCEFD3;
 }
