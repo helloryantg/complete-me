@@ -37,6 +37,19 @@ class App extends Component {
 
   }
 
+  // This is copied from the signup form
+  // handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   userService.signup(this.state)
+  //     // successfully signed up - show GamePage
+  //     .then(() => {
+  //       this.props.handleSignupOrLogin();
+  //       this.props.history.push('/');
+  //     })
+  //     // invalid user data
+  //     .catch(err => this.props.updateMessage(err.message));
+  // }
+
 /*----- Login/Logout -----*/
 
   handleLogout = () => {
@@ -72,19 +85,20 @@ class App extends Component {
     let game = this.state.game;
     let page;
 
-    if (game.players.length === 2 && !game.players[0].time && !game.players[1].time) {
+    if (game && game.players.length === 2 && !game.players[0].time && !game.players[1].time) {
       // renders when there are 2 players and run has run out for both of them
       page = <GameResultsPage />
-    } else if (game.players.length === 2) {
+    } else if (game && game.players.length === 2) {
       // renders when there are 2 players and now the game is in play
       page = <GamePage 
         game={this.state.game}
         user={this.state.user}
       />;
-    } else if (game.players.length === 1) {
+    } else if (game && game.players.length === 1) {
       page = <WaitingPage />
     } else {
       // no game
+      // refreshing the game while on waiting doesn't do it
       page = <FrontPage 
         user={this.state.user}
         handleLogout={this.handleLogout} 
@@ -101,7 +115,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path='/' render={() =>
-              {page}
+              page
             } />
             <Route exact path ='/signup' render={({history}) => 
               <SignupPage 

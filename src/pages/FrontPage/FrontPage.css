@@ -1,5 +1,5 @@
 .FrontPage {
-    height: 60vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -47,9 +47,30 @@
 
 .FrontPage .join-game {
     background-color: #20B279;
+    color: #FCEFD3;
 }
 
 .FrontPage .create-game {
     background-color: #20B279;
     color: #FCEFD3;
+}
+
+.FrontPage .code-input {
+    height: 40px;
+    width: 220px;
+    font-size: 130%;
+    margin: 8px 0;
+    text-align: center;
+}
+
+.FrontPage .orange {
+    color: #ED7D54;
+    font-size: 200%;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.welcome {
+    position: relative;
+    top: -120px;
 }

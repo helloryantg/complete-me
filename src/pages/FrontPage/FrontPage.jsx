@@ -22,13 +22,11 @@ const FrontPage = props => {
                 <Link onClick={props.handleCreateGameClick} to='/'>CREATE GAME</Link>
             </div>
 
-            <form onSubmit={this.handleJoinGameClick}>
-                <div>
-                    <input type="text" placeholder="Game Code" value={this.state.gameCode} name="gameCode"/>
-                </div>
-                <div>
-                    <button className="links join-game"></button>
-                </div>
+            <div className="orange">OR</div>
+
+            <form onSubmit={props.handleJoinGameClick}>
+                <button className="links join-game">JOIN GAME</button>
+                <input className="code-input" type="text" placeholder="Game Code" name="gameCode"/>
             </form>
             <div className="links logout">
                 <Link to='' onClick={props.handleLogout}>LOG OUT</Link>
@@ -37,7 +35,7 @@ const FrontPage = props => {
         :
         <div>
             <div className="login-signup">
-                <div className="fp-letter-container">
+                <div className="fp-letter-container welcome">
                     <div className="first-last letter-outer"><div className="letter-inner">W</div></div>
                     <div className="letter-outer"><div className="letter-inner">E</div></div>
                     <div className="first-last letter-outer"><div className="letter-inner">L</div></div>
