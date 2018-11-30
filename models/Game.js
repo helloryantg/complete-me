@@ -9,7 +9,7 @@ const wordSchema = new Schema({
 
 const challengeSchema = new Schema({
     text: String,
-    multiplier: Number,
+    multiplier: {type: Number, default: 1},
     color: String
 })
 

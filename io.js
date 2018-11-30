@@ -3,6 +3,20 @@ const Game = require('./models/game');
 let io;
 var games = {};
 
+generateRandomLetter = () => {
+  var letter;
+  var characters = "abcdefghijklmnopqrstuvwxyz"
+  var randomNumber = Math.floor(Math.random() * characters.length);
+  letter = characters[randomNumber];
+  return letter.toUpperCase();
+}
+
+countWordScore = (word) => {
+  // refactor this to add the challenges multiplier
+  var baseScore = word.length - 2;
+  return baseScore;
+}
+
 module.exports = {
   
   init: function(httpServer) {
@@ -19,10 +33,6 @@ module.exports = {
       });
       
       socket.on('createGame', function(user) {
-        // check if the user attempts to start a new game
-
-        // When a user sends a new game messege on the server - werite a routine that goes through and checks
-        // to see if there is any game in the games object with the id 
         var game = new Game();
         game.players.push({
           name: user.name,
@@ -35,13 +45,15 @@ module.exports = {
           games[game._id] = game;
         });
       });
-
+      
       socket.on('joinGame', function(user, gameCode) {
         var game = games[gameCode];
         game.players.push({
           name: user.name,
           id: user.id
         });
+        // var randomLetter = generateRandomLetter();
+        // game.currentWord += randomLetter;
         socket.join(gameCode);
         io.to(game.id).emit('gameData', game);
         game.save();
@@ -56,10 +68,19 @@ module.exports = {
       
       socket.on('onEnter', function() {
         var game = games[socket.gameId];
-        game.players[0].wordList.push({
-          word: game.currentWord
-        });
+        if (game.turnIdx % 2 === 0) {
+          game.players[0].wordList.push({
+            word: game.currentWord,
+            score: countWordScore(game.currentWord)
+          });
+        } else if (game.turnIdx % 2 === 1) {
+          game.players[1].wordList.push({
+            word: game.currentWord,
+            score: countWordScore(game.currentWord)
+          });
+        }
         game.currentWord = '';
+        game.turnIdx++;
         io.to(game.id).emit('gameData', game);
         game.save();
       })
@@ -71,6 +92,7 @@ module.exports = {
         io.to(game.id).emit('gameData', game);
         game.save();
       })
+      
 
 
     });
@@ -79,5 +101,3 @@ module.exports = {
   getIo: function() {return io}
 
 };
-
-// game.save

@@ -4,12 +4,14 @@ import './PlayerWords.css';
 const PlayerWords = props => {
     return (
         <div className="PlayerWords">
-            <div id="words">
-                {/* {props.game.players.wordList.map(list => <p>{list.word}</p>)} */}
-                {/* Show only a max of 5 words  */}
+            <div className="words">
+                {props.playerOneList ? props.playerOneList.map(list => <p>{list.word} <span>+ {list.score}</span></p>) : null}
+                {props.playerTwoList ? props.playerTwoList.map(list => <p>{list.word} <span>+ {list.score}</span></p>) : null} 
             </div>
         </div>
     );
 }
 
 export default PlayerWords;
+
+

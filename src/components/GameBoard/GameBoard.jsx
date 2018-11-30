@@ -13,6 +13,16 @@ class GameBoard extends Component {
         }
     }
 
+    generateRandomLetter = () => {
+        var letter;
+        var characters = "abcdefghijklmnopqrstuvwxyz"
+        var randomNumber = Math.floor(Math.random() * characters.length);
+        letter = characters[randomNumber];
+        return letter.toUpperCase();
+    }
+    
+    /*----- Lifecycle Methods -----*/
+
     componentDidMount() {
         window.document.addEventListener('keydown', this.handleKeyDown);
     }
@@ -22,6 +32,15 @@ class GameBoard extends Component {
     }
 
     render() {
+        let player = this.props.game.players;
+        if (player[this.props.game.turnIdx] % 2 === 0) {
+            player[0].wordList[player[0].wordList.length - 1].split('').map((letter, idx) => 
+                <div key={idx} className="letter">{letter}</div>)
+        } else if (player[this.props.game.turnIdx] % 2 === 1) {
+            player[1].wordList[player[1].wordList.length - 1].split('').map((letter, idx) => 
+                <div key={idx} className="letter">{letter}</div>)
+        }
+
         return (
             <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                 <div className="fp-letter-container">

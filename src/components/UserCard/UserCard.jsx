@@ -4,8 +4,20 @@ import './UserCard.css';
 const UserCard = props => {
     return (
         <div className="UserCard">
-            <p>{props.game.players[0].time}</p>
-            <h4>{props.game.players[0].name}</h4>
+            {props.playerOneUser ? (
+                <>
+                    <p>{props.playerOneUser.time}</p>
+                    <h4>{props.playerOneUser.name}</h4>
+                </>
+            ) : null
+            }
+            {props.playerTwoUser ? (
+                <>
+                    <p>{props.playerTwoUser.time}</p>
+                    <h4>{props.playerTwoUser.name}</h4>
+                </>
+            ) : null
+            }
         </div>
     );
 }

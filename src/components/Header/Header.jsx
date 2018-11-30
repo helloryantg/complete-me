@@ -7,13 +7,13 @@ const Header = props => {
     return (
         <div className="Header">
             <UserCard 
-                game={props.game}
+                playerOneUser={props.game.players[0]}
                 />
             <MiddleHeader 
                 game={props.game}
                 />            
             <UserCard 
-                game={props.game}
+                playerTwoUser={props.game.players[1]}
             />
         </div>
     );
