@@ -38,6 +38,8 @@ module.exports = {
 
 };
 
+// game.save
+
 //   socket.on('register-player', function(initials) {
 //     players[socket.id] = initials;
 //     io.emit(

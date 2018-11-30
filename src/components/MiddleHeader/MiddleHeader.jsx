@@ -11,7 +11,7 @@ const MiddleHeader = props => {
                 <Timer />
             </div>
             <h2>CHALLENGES</h2>
-            <Challenge />
+            <Challenge game={props.game} />
         </div>
     );
 }

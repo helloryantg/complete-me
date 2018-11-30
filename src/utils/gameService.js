@@ -4,11 +4,16 @@ import socket from './socket';
 // const BASE_URL = '/api/games';
 
 export default {
-    createGame
+    createGame,
+    joinGame
 };
 
 function createGame(user) {
     socket.emit('createGame', user);
+}
+
+function joinGame(user) {
+    socket.emit('joinGame', user);
 }
 
 /*--- Helper Functions ---*/

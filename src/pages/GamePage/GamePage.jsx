@@ -7,9 +7,18 @@ import Footer from '../../components/Footer/Footer';
 const GamePage = props => {
     return (
         <div className="GamePage">
-            <Header />
-            <GameBoard />
-            <Footer />
+            <Header 
+                game={props.game}
+                user={props.user}
+                />
+            <GameBoard 
+                game={props.game}
+                user={props.user}
+                />
+            <Footer 
+                game={props.game}
+                user={props.user}
+            />
         </div>
     );
 }
