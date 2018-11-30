@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './FrontPage.css';
 import { Link } from 'react-router-dom';
+import gameService from '../../utils/gameService';
+
 // import Instructions from '../../components/Instructions/Instructions';
 
 class FrontPage extends Component {
@@ -12,10 +14,13 @@ class FrontPage extends Component {
     }
 
     handleChange = (e) => {
-        this.props.updateMessage('');
         this.setState({
-            [e.target.gameCode]: e.target.value
+            gameCode: e.target.value
         })
+    }
+
+    handleJoinClick = (e) => {
+        gameService.joinGame(this.props.user, this.state.gameCode);
     }
 
     render() {
@@ -40,7 +45,7 @@ class FrontPage extends Component {
             <div className="orange">OR</div>
 
             <input className="code-input" type="text" placeholder="Game Code" name="gameCode" value={this.state.gameCode} onChange={this.handleChange}/>
-            <button onClick={this.props.handleJoinGameClick} className="links join-game">JOIN GAME</button>
+            <button onClick={this.handleJoinClick} className="links join-game">JOIN GAME</button>
 
             <div className="links logout">
                 <Link to='' onClick={this.props.handleLogout}>LOG OUT</Link>

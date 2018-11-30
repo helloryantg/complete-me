@@ -5,8 +5,8 @@ const Challenge = props => {
     return (
         <div className="Challenge">
             <div>
-                <p><span class="multiplier">4x</span>Words that describe foods</p>
-                <p><span class="multiplier">2x</span>Words that start and end with the same letter</p>
+                <p><span className="multiplier">4x</span>Words that describe foods</p>
+                <p><span className="multiplier">2x</span>Words that start and end with the same letter</p>
             </div>
         </div>
     );

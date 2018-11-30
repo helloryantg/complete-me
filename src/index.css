@@ -27,6 +27,10 @@ html {
   font-family: 'Roboto', sans-serif;
 }
 
+a {
+  text-decoration: none;
+}
+
 .fp-letter-container {
   margin: 0 auto;
   display: flex;

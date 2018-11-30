@@ -12,8 +12,8 @@ function createGame(user) {
     socket.emit('createGame', user);
 }
 
-function joinGame(user) {
-    socket.emit('joinGame', user);
+function joinGame(user, code) {
+    socket.emit('joinGame', user, code);
 }
 
 /*--- Helper Functions ---*/

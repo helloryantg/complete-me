@@ -16,7 +16,33 @@
 
 .LoginPage input {
     height: 40px;
-    width: 220px;
+    width: 230px;
     font-size: 130%;
     margin: 8px 0;
+    border-radius: 6px;
+}
+
+.LoginPage .links {
+    background-color: #FCEFD3;
+    width: 240px;
+    height: 60px;
+    margin: 20px auto 0; 
+    border-radius: 10px;
+    border-bottom: 4px solid #EDA754;
+    color: #ED7D54;
+    font-size: 200%;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.LoginPage .login {
+    background-color: #20B279;
+    color: #FCEFD3;
+}
+
+.LoginPage .cancel {
+    background-color: #ED7D54;
+    color: #FCEFD3;
 }

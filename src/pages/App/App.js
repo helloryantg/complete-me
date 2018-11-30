@@ -31,12 +31,6 @@ class App extends Component {
     gameService.createGame(this.state.user);
   }
 
-  handleJoinGameClick = (e) => {
-    e.preventDefault();
-    console.log(e.target.gameCode);
-    gameService.joinGame(this.state.user, e.target.body);
-  }
-
 /*----- Login/Logout -----*/
 
   handleLogout = () => {
@@ -90,7 +84,6 @@ class App extends Component {
         user={this.state.user}
         handleLogout={this.handleLogout} 
         handleCreateGameClick={this.handleCreateGameClick}
-        handleJoinGameClick={this.handleJoinGameClick}
       />;
       // code is game id and 2nd player user id
     }
