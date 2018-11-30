@@ -5,8 +5,9 @@ const Challenge = props => {
     return (
         <div className="Challenge">
             <div>
-                <p><span className="multiplier">4x</span>Words that describe foods</p>
-                <p><span className="multiplier">2x</span>Words that start and end with the same letter</p>
+                {props.game.challenges.map(challenge => 
+                    <p><span className="multiplier">{challenge.multiplier}</span>{challenge.text}</p>
+                )}
             </div>
         </div>
     );

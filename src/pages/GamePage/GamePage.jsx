@@ -9,15 +9,12 @@ const GamePage = props => {
         <div className="GamePage">
             <Header 
                 game={props.game}
-                user={props.user}
                 />
             <GameBoard 
                 game={props.game}
-                user={props.user}
                 />
             <Footer 
                 game={props.game}
-                user={props.user}
             />
         </div>
     );

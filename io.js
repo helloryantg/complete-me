@@ -37,7 +37,6 @@ module.exports = {
       });
 
       socket.on('joinGame', function(user, gameCode) {
-        console.log(gameCode);
         var game = games[gameCode];
         game.players.push({
           name: user.name,

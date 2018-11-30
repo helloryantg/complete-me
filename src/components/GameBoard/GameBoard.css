@@ -3,6 +3,21 @@
     width: 96%;
     margin: 0 auto;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    border: 1px solid red;
+    flex-wrap: wrap;
+}
+
+.GameBoard input {
+    height: 30px;
+    width: 400px;
+    border: 1px solid red;
+    z-index: 1;
+}
+
+.GameBoard .fp-letter-container {
+    position: relative;
+    z-index: 999;
 }

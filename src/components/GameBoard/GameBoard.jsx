@@ -1,27 +1,48 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './GameBoard.css';
-import Letter from '../Letter/Letter';
+// import Letter from '../Letter/Letter';
 
-const GameBoard = props => (
-    <div className="GameBoard">
-        <div className="Letter first-last letter">P</div>
-        <div className="letter">L</div>
-        <div className="first-last letter">E</div>
-        <div className="letter">A</div>
-        <div className="first-last letter">S</div>
-        <div className="letter">E</div>
-        <div className="first-last letter">W</div>
-        <div className="letter">O</div>
-        <div className="first-last letter">R</div>
-        <div className="letter">K</div>
-        
-        {props.game.gameList.map((word, idx) => 
-            <Letter 
-                word={word}
-                key={idx}
-            />
-        )}
-    </div>
-)
+class GameBoard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentWord: ''
+        }
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            currentWord: e.target.value
+        })
+    }
+
+    handleWordSubmit = (e) => {
+        // Submit the word when enter is pressed
+        // console.log('Submit: ' + currentWord);
+    }
+    
+    handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            this.handleWordSubmit();
+            this.setState({
+                currentWord: ''
+            })
+            // This is where to check if the word is correct    
+        }
+    }
+
+    render() {
+        return (
+            <div className="GameBoard">
+                <div className="fp-letter-container">
+                    {this.state.currentWord.toUpperCase().split('').map(letter => 
+                        <div className="letter">{letter}</div>
+                    )}
+                </div>
+                <input className="current-word" type="text" name="currentWord" value={this.state.currentWord} onChange={this.handleChange} onKeyDown={this.handleKeyDown}/>
+            </div>
+        );
+    }
+}
 
 export default GameBoard;

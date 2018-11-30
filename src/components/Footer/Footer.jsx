@@ -7,11 +7,11 @@ import PlayerTurn from '../PlayerTurn/PlayerTurn';
 const Footer = props => {
     return (
         <div className="Footer">
-                <PlayerWords />
-                <PlayerScore />
-                <PlayerTurn />
-                <PlayerScore />
-                <PlayerWords />
+                <PlayerWords game={props.game}/>
+                <PlayerScore game={props.game}/>
+                <PlayerTurn game={props.game}/>
+                <PlayerScore game={props.game}/>
+                <PlayerWords game={props.game}/>
         </div>
     );
 }

@@ -76,6 +76,7 @@ class App extends Component {
         user={this.state.user}
       />;
     } else if (game && game.players.length === 1) {
+      // renders when there is only one player waiting for the next player to join
       page = <WaitingPage game={this.state.game}/>
     } else {
       // no game

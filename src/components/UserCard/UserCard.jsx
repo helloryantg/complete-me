@@ -4,8 +4,8 @@ import './UserCard.css';
 const UserCard = props => {
     return (
         <div className="UserCard">
-            <p>UserCard</p>
-            <h4>Username</h4>
+            <p>{props.game.players[0].time}</p>
+            <h4>{props.game.players[0].name}</h4>
         </div>
     );
 }
