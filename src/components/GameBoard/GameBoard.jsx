@@ -3,12 +3,6 @@ import './GameBoard.css';
 import socket from '../../utils/socket';
 
 class GameBoard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            game: null
-        }
-    }
     
     handleKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -31,16 +25,24 @@ class GameBoard extends Component {
     }
 
     render() {
-        // var mergedList;
+        var game = this.props.game;
+        var mergedList = [];
         // if (this.props.game.players[0].wordList && this.props.game.players[1].wordList) {
         //     mergedList = this.props.game.players[0].wordList.map(function(v, i) {
-        //         return [v, this.props.game.players[1].wordList[i]]
+        //         return [v.word, this.props.game.players[1].wordList[i]]
         //     }).reduce(function(a, b) {
         //         return a.concat(b)
         //     });
         // } else {
         //     mergedList = null;
         // }
+
+        game.players[0].wordList.forEach(function(wordObj, idx) {
+            mergedList.push(wordObj.word);
+            if (game.players[1].wordList[idx]) mergedList.push(game.players[1].wordList[idx]);
+        });
+
+        console.log(mergedList)
 
         return (
             <div className="GameBoard" onKeyDown={this.handleKeyDown}>
@@ -51,13 +53,13 @@ class GameBoard extends Component {
                         null
                     } */}
 
-                    {this.props.game.players[0].wordList.map(function(v, i) { 
+                    {/* {this.props.game.players[0].wordList.map(function(v, i) { 
                         return [v, this.props.game.players[1].wordList[i]]}).reduce(function(a, b) {
                             return a.concat(b)
                         }).forEach(word => 
                             word.split('').map((w, idx) => <div key={idx} className="letter">{w}</div>)
                         )
-                    }
+                    } */}
                     
                     {this.props.game.currentWord.split('').map((letter, idx) => 
                         <div key={idx} className="letter">{letter}</div>
@@ -70,3 +72,4 @@ class GameBoard extends Component {
 }
 
 export default GameBoard;
+

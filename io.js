@@ -55,6 +55,7 @@ module.exports = {
           id: user.id
         });
         socket.join(gameCode);
+        socket.gameId = game.id;
         io.to(game.id).emit('gameData', game);
         game.save();
       });
@@ -68,25 +69,20 @@ module.exports = {
       
       socket.on('onEnter', function() {
         var game = games[socket.gameId];
-        if (game.turnIdx % 2 === 0) {
-          game.players[0].wordList.push({
+        var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
+        wordList.push({
             word: game.currentWord,
             score: countWordScore(game.currentWord)
-          });
-        } else if (game.turnIdx % 2 === 1) {
-          game.players[1].wordList.push({
-            word: game.currentWord,
-            score: countWordScore(game.currentWord)
-          });
-        }
-        game.currentWord = '';
-        game.turnIdx++;
+        });
+        game.currentWord = game.currentWord[game.currentWord.length - 1];
+        game.turnIdx = game.turnIdx ? 0 : 1;
         io.to(game.id).emit('gameData', game);
         game.save();
       })
       
       socket.on('onBackspace', function() {
         var game = games[socket.gameId];
+        if (game.currentWord.length < 2) return;
         var removedLast = game.currentWord.substring(0, game.currentWord.length - 1);
         game.currentWord = removedLast;
         io.to(game.id).emit('gameData', game);
