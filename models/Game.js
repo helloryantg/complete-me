@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const wordSchema = new Schema({
-    word: String,
-    score: Number,
+    word: {type: String, default: ''},
+    score: {type: Number, default: 0},
     challengeIndex: { type: Number, default: 0 }
 })
 
 const challengeSchema = new Schema({
-    text: String,
+    text: {type: String, default: 'Good Luck!'},
     multiplier: {type: Number, default: 1},
-    color: String
+    color: {type: String, default: 'grey'}
 })
 
 const playerSchema = new Schema({

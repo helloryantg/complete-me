@@ -38,6 +38,8 @@ module.exports = {
           name: user.name,
           id: user._id,
         });
+        var randomLetter = generateRandomLetter();
+        game.currentWord += randomLetter;
         game.save(function(err) {
           socket.gameId = game.id;
           socket.join(game.id);
@@ -52,8 +54,6 @@ module.exports = {
           name: user.name,
           id: user.id
         });
-        // var randomLetter = generateRandomLetter();
-        // game.currentWord += randomLetter;
         socket.join(gameCode);
         io.to(game.id).emit('gameData', game);
         game.save();
@@ -85,7 +85,7 @@ module.exports = {
         game.save();
       })
       
-      socket.on('backspace', function() {
+      socket.on('onBackspace', function() {
         var game = games[socket.gameId];
         var removedLast = game.currentWord.substring(0, game.currentWord.length - 1);
         game.currentWord = removedLast;

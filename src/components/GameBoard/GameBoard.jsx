@@ -3,22 +3,21 @@ import './GameBoard.css';
 import socket from '../../utils/socket';
 
 class GameBoard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            game: null
+        }
+    }
+    
     handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             socket.emit('onEnter');
         } else if (e.keyCode >= 65 && e.keyCode <= 90) {
             socket.emit('characterPressed', e.key.toUpperCase());            
         } else if (e.keyCode === 8) {
-            socket.emit('backspace');
+            socket.emit('onBackspace');
         }
-    }
-
-    generateRandomLetter = () => {
-        var letter;
-        var characters = "abcdefghijklmnopqrstuvwxyz"
-        var randomNumber = Math.floor(Math.random() * characters.length);
-        letter = characters[randomNumber];
-        return letter.toUpperCase();
     }
     
     /*----- Lifecycle Methods -----*/
@@ -32,18 +31,34 @@ class GameBoard extends Component {
     }
 
     render() {
-        let player = this.props.game.players;
-        if (player[this.props.game.turnIdx] % 2 === 0) {
-            player[0].wordList[player[0].wordList.length - 1].split('').map((letter, idx) => 
-                <div key={idx} className="letter">{letter}</div>)
-        } else if (player[this.props.game.turnIdx] % 2 === 1) {
-            player[1].wordList[player[1].wordList.length - 1].split('').map((letter, idx) => 
-                <div key={idx} className="letter">{letter}</div>)
-        }
+        // var mergedList;
+        // if (this.props.game.players[0].wordList && this.props.game.players[1].wordList) {
+        //     mergedList = this.props.game.players[0].wordList.map(function(v, i) {
+        //         return [v, this.props.game.players[1].wordList[i]]
+        //     }).reduce(function(a, b) {
+        //         return a.concat(b)
+        //     });
+        // } else {
+        //     mergedList = null;
+        // }
 
         return (
             <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                 <div className="fp-letter-container">
+                    {/* {this.props.game.players[0].wordList && this.props.game.players[1].wordList ? 
+                        mergedList.forEach(word => word.split('').map((w, idx) => <div key={idx} className="letter">{w}</div>))
+                        :
+                        null
+                    } */}
+
+                    {this.props.game.players[0].wordList.map(function(v, i) { 
+                        return [v, this.props.game.players[1].wordList[i]]}).reduce(function(a, b) {
+                            return a.concat(b)
+                        }).forEach(word => 
+                            word.split('').map((w, idx) => <div key={idx} className="letter">{w}</div>)
+                        )
+                    }
+                    
                     {this.props.game.currentWord.split('').map((letter, idx) => 
                         <div key={idx} className="letter">{letter}</div>
                     )}
