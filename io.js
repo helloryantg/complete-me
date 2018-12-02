@@ -1,5 +1,29 @@
 const Game = require('./models/game');
 
+const API_URL = 'http://api.datamuse.com/words?'
+// https://api.datamuse.com/words?sp=x??????e
+
+const challengesList = [
+  {
+    text: 'Words strongly associated with dogs',
+    multiplier: 2,
+    color: 'red'
+  },
+  {
+    text: 'Words strongly associated with dogs',
+    multiplier: 2,
+    color: 'red'
+  }
+];
+
+// countQuestionMarks = (lettersInBetweenCount) => {
+//   var questionMarkCount = '';
+//   for (var i = 0; i < lettersInBetweenCount; i++) {
+//     questionMarkCount += '?';
+//   }
+//   return questionMarkCount;
+// }
+
 let io;
 var games = {};
 
@@ -16,6 +40,7 @@ countWordScore = (word) => {
   var baseScore = word.length - 2;
   return baseScore;
 }
+
 
 module.exports = {
   
@@ -69,6 +94,15 @@ module.exports = {
       
       socket.on('onEnter', function() {
         var game = games[socket.gameId];
+        
+        var firstLetter = game.currentWord[0];
+        var lastLetter = game.currentWord[game.currentWord.length - 1];
+        var lettersInBetweenCount = game.currentWord.length - 2;
+        var correctSpellingAndMatch = fetch(`${API_URL}sp=${firstLetter}*${lastLetter}`)
+          .then(res => res.json())
+          .then(words => words.find(word => word.word === wordToCheck));
+        console.log(correctSpellingAndMatch);
+
         var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
         wordList.push({
             word: game.currentWord,
@@ -89,7 +123,7 @@ module.exports = {
         game.save();
       })
       
-
+      
 
     });
   },

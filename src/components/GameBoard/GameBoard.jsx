@@ -27,40 +27,19 @@ class GameBoard extends Component {
     render() {
         var game = this.props.game;
         var mergedList = [];
-        // if (this.props.game.players[0].wordList && this.props.game.players[1].wordList) {
-        //     mergedList = this.props.game.players[0].wordList.map(function(v, i) {
-        //         return [v.word, this.props.game.players[1].wordList[i]]
-        //     }).reduce(function(a, b) {
-        //         return a.concat(b)
-        //     });
-        // } else {
-        //     mergedList = null;
-        // }
 
         game.players[0].wordList.forEach(function(wordObj, idx) {
             mergedList.push(wordObj.word);
             if (game.players[1].wordList[idx]) mergedList.push(game.players[1].wordList[idx]);
         });
 
-        console.log(mergedList)
+        console.log(mergedList);
 
         return (
             <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                 <div className="fp-letter-container">
-                    {/* {this.props.game.players[0].wordList && this.props.game.players[1].wordList ? 
-                        mergedList.forEach(word => word.split('').map((w, idx) => <div key={idx} className="letter">{w}</div>))
-                        :
-                        null
-                    } */}
+                    {game.players[1].wordList > 2 ? mergedList.forEach(w => w.word.split('').map((w, idx) => <div key={idx} className="letter">{w}</div>)) : null}
 
-                    {/* {this.props.game.players[0].wordList.map(function(v, i) { 
-                        return [v, this.props.game.players[1].wordList[i]]}).reduce(function(a, b) {
-                            return a.concat(b)
-                        }).forEach(word => 
-                            word.split('').map((w, idx) => <div key={idx} className="letter">{w}</div>)
-                        )
-                    } */}
-                    
                     {this.props.game.currentWord.split('').map((letter, idx) => 
                         <div key={idx} className="letter">{letter}</div>
                     )}

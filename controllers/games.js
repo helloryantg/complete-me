@@ -8,6 +8,3 @@ module.exports = {
 function createGame(req, res) {
 
 }   
-
-// Waiting room component
-// this.state.game.players.length > 1
