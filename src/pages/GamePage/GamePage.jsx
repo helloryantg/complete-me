@@ -12,6 +12,7 @@ const GamePage = props => {
                 />
             <GameBoard 
                 game={props.game}
+                user={props.user}
                 />
             <Footer 
                 game={props.game}

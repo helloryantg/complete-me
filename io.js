@@ -7,60 +7,32 @@ var games = {};
 
 const challengesList = [
   {
-    text: 'Words strongly associated with dogs',
-    multiplier: 3,
-    color: 'FF00FF'
-  },
-  {
     text: 'Words that start and end with the same letter',
     multiplier: 2,
-    color: 'DA70D6'
+    color: 'DA70D6',
+    challengeCode: 0
   },
   {
     text: 'Words that are 7 letters long',
     multiplier: 3,
-    color: 'BA55D3'
+    color: 'BA55D3',
+    challengeCode: 1
+  },
+  {
+    text: 'Words strongly associated with dogs',
+    multiplier: 3,
+    color: 'FF00FF',
+    challengeCode: 2
   },
   {
     text: 'Words that describe ghosts',
     multiplier: 4,
-    color: '9400D3'
+    color: '9400D3',
+    challengeCode: 3
   }
 ];
 
-// https://api.datamuse.com/words?sp=x??????e
-// https://api.datamuse.com/words?rel_trg=ghost
 
-
-generateRandomLetter = () => {
-  var letter;
-  var characters = "abcdefghijklmnopqrstuvwxyz"
-  var randomNumber = Math.floor(Math.random() * characters.length);
-  letter = characters[randomNumber];
-  return letter.toUpperCase();
-}
-
-countWordScore = (word) => {
-  // refactor this to add the challenges multiplier
-  var baseScore = word.length - 2;
-  return baseScore;
-}
-
-// Fisher-Yates shuffle
-shuffleChallenges = (challenges) => {
-  var currentIdx = challenges.length;
-  var tempValue;
-  var randomIdx;
-
-  while (currentIdx !== 0) {
-    randomIdx = Math.floor(Math.random() * currentIdx);
-    currentIdx -= 1;
-
-    tempValue = challenges[currentIdx];
-    challenges[currentIdx] = challenges[randomIdx];
-    challenges[randomIdx] = tempValue;
-  }
-}
 
 module.exports = {
   
@@ -118,26 +90,18 @@ module.exports = {
 
       socket.on('characterPressed', function(character) {
         var game = games[socket.gameId];
+        if (!game) return;
         game.currentWord += character;
         io.to(game.id).emit('gameData', game);
         game.save();
       });
       
-      socket.on('onEnter', function() {
+      socket.on('onEnter', function(challenge) {
         var game = games[socket.gameId];
-        
-        // var firstLetter = game.currentWord[0];
-        // var lastLetter = game.currentWord[game.currentWord.length - 1];
-        // var lettersInBetweenCount = game.currentWord.length - 2;
-        // var correctSpellingAndMatch = fetch(`${API_URL}sp=${firstLetter}*${lastLetter}`)
-        //   .then(res => res.json())
-        //   .then(words => words.find(word => word.word === wordToCheck));
-        // console.log(correctSpellingAndMatch);
-
         var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
         wordList.push({
             word: game.currentWord,
-            score: countWordScore(game.currentWord)
+            score: countWordScore(game.currentWord, challenge)
         });
         game.currentWord = game.currentWord[game.currentWord.length - 1];
         game.turnIdx = game.turnIdx ? 0 : 1;
@@ -154,13 +118,20 @@ module.exports = {
         game.save();
       });
 
-      socket.on('countDown', function() {
+      socket.on('noMatch', function() {
         var game = games[socket.gameId];
-        game.players[game.turnIdx].time--;
+        game.currentWord = game.currentWord[game.currentWord.length - 1];
         io.to(game.id).emit('gameData', game);
         game.save();
       })
 
+      socket.on('countDown', function() {
+        var game = games[socket.gameId];
+        if (!game) return;
+        game.players[game.turnIdx].time--;
+        io.to(game.id).emit('gameData', game);
+        game.save();
+      })
 
     });
   },
@@ -168,3 +139,44 @@ module.exports = {
   getIo: function() {return io}
 
 };
+
+generateRandomLetter = () => {
+  var letter;
+  var characters = "abcdefghijklmnopqrstuvwxyz"
+  var randomNumber = Math.floor(Math.random() * characters.length);
+  letter = characters[randomNumber];
+  return letter.toUpperCase();
+}
+
+countWordScore = (word, challenge) => {
+  var multiplier;
+  if (challenge === 0) {
+    multiplier = 2;
+  } else if (challenge === 1) {
+    multiplier = 3;
+  } else if (challenge === 2) {
+    multiplier = 3;
+  } else if (challenge === 3) {
+    multiplier = 4;
+  } else {
+    multiplier = 1;
+  }
+  var baseScore = word.length - 2;
+  return baseScore * multiplier
+}
+
+// Fisher-Yates shuffle
+shuffleChallenges = (challenges) => {
+  var currentIdx = challenges.length;
+  var tempValue;
+  var randomIdx;
+
+  while (currentIdx !== 0) {
+    randomIdx = Math.floor(Math.random() * currentIdx);
+    currentIdx -= 1;
+
+    tempValue = challenges[currentIdx];
+    challenges[currentIdx] = challenges[randomIdx];
+    challenges[randomIdx] = tempValue;
+  }
+}
