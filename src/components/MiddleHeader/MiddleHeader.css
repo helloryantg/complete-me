@@ -9,8 +9,8 @@
     width: 200px;
     height: 30px;
     margin: 0 auto;
-    color: white;
-    background-color: #20B279;
+    color: #20B279;
+    font-weight: 700;
     border-radius: 8px;
     padding: 2px 8px;
 }

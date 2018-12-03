@@ -6,11 +6,11 @@ const API_URL = 'http://api.datamuse.com/words?'
 const challengesList = [
   {
     text: 'Words strongly associated with dogs',
-    multiplier: 2,
+    multiplier: 3,
     color: 'red'
   },
   {
-    text: 'Words strongly associated with dogs',
+    text: 'Words that start and end with the same letter',
     multiplier: 2,
     color: 'red'
   }
@@ -95,13 +95,13 @@ module.exports = {
       socket.on('onEnter', function() {
         var game = games[socket.gameId];
         
-        var firstLetter = game.currentWord[0];
-        var lastLetter = game.currentWord[game.currentWord.length - 1];
-        var lettersInBetweenCount = game.currentWord.length - 2;
-        var correctSpellingAndMatch = fetch(`${API_URL}sp=${firstLetter}*${lastLetter}`)
-          .then(res => res.json())
-          .then(words => words.find(word => word.word === wordToCheck));
-        console.log(correctSpellingAndMatch);
+        // var firstLetter = game.currentWord[0];
+        // var lastLetter = game.currentWord[game.currentWord.length - 1];
+        // var lettersInBetweenCount = game.currentWord.length - 2;
+        // var correctSpellingAndMatch = fetch(`${API_URL}sp=${firstLetter}*${lastLetter}`)
+        //   .then(res => res.json())
+        //   .then(words => words.find(word => word.word === wordToCheck));
+        // console.log(correctSpellingAndMatch);
 
         var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
         wordList.push({
