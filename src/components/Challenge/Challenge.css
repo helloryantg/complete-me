@@ -1,5 +1,5 @@
 .Challenge {
-    height: 50%;
+    height: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +7,7 @@
 
 .Challenge p {
     font-weight: 700;
-    margin: 10px;
+    margin: 20px;
     font-size: 110%;
 }
 

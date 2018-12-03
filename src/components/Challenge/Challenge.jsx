@@ -6,7 +6,7 @@ const Challenge = props => {
         <div className="Challenge">
             <div>
                 {props.game.challenges.map(challenge => 
-                    <p className={`color-${challenge.color}`}><span className={`color-${challenge.color} multiplier`}>{challenge.multiplier}</span>{challenge.text}</p>
+                    <p className={`color-${challenge.color}`}><span className={`color-${challenge.color} multiplier`}>x{challenge.multiplier}</span>{challenge.text}</p>
                 )}
             </div>
         </div>

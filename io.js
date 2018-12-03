@@ -31,6 +31,21 @@ const challengesList = [
 // https://api.datamuse.com/words?sp=x??????e
 // https://api.datamuse.com/words?rel_trg=ghost
 
+
+generateRandomLetter = () => {
+  var letter;
+  var characters = "abcdefghijklmnopqrstuvwxyz"
+  var randomNumber = Math.floor(Math.random() * characters.length);
+  letter = characters[randomNumber];
+  return letter.toUpperCase();
+}
+
+countWordScore = (word) => {
+  // refactor this to add the challenges multiplier
+  var baseScore = word.length - 2;
+  return baseScore;
+}
+
 // Fisher-Yates shuffle
 shuffleChallenges = (challenges) => {
   var currentIdx = challenges.length;
@@ -45,21 +60,6 @@ shuffleChallenges = (challenges) => {
     challenges[currentIdx] = challenges[randomIdx];
     challenges[randomIdx] = tempValue;
   }
-}
-
-
-generateRandomLetter = () => {
-  var letter;
-  var characters = "abcdefghijklmnopqrstuvwxyz"
-  var randomNumber = Math.floor(Math.random() * characters.length);
-  letter = characters[randomNumber];
-  return letter.toUpperCase();
-}
-
-countWordScore = (word) => {
-  // refactor this to add the challenges multiplier
-  var baseScore = word.length - 2;
-  return baseScore;
 }
 
 module.exports = {
@@ -111,6 +111,7 @@ module.exports = {
         });
         socket.join(gameCode);
         socket.gameId = game.id;
+
         io.to(game.id).emit('gameData', game);
         game.save();
       });
@@ -120,7 +121,7 @@ module.exports = {
         game.currentWord += character;
         io.to(game.id).emit('gameData', game);
         game.save();
-      })
+      });
       
       socket.on('onEnter', function() {
         var game = games[socket.gameId];
@@ -142,7 +143,7 @@ module.exports = {
         game.turnIdx = game.turnIdx ? 0 : 1;
         io.to(game.id).emit('gameData', game);
         game.save();
-      })
+      });
       
       socket.on('onBackspace', function() {
         var game = games[socket.gameId];
@@ -151,9 +152,15 @@ module.exports = {
         game.currentWord = removedLast;
         io.to(game.id).emit('gameData', game);
         game.save();
+      });
+
+      socket.on('countDown', function() {
+        var game = games[socket.gameId];
+        game.players[game.turnIdx].time--;
+        io.to(game.id).emit('gameData', game);
+        game.save();
       })
-      
-      
+
 
     });
   },

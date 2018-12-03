@@ -14,11 +14,24 @@ class GameBoard extends Component {
             socket.emit('onBackspace');
         }
     }
+
+    startTimer = () => {
+        this.timer = setInterval(this.countDown, 2000);
+    }
+
+    countDown = () => {
+        socket.emit('countDown');
+        
+        if (!this.props.game.players[0].time) {
+            clearInterval(this.timer);
+        }
+    }
     
     /*----- Lifecycle Methods -----*/
 
     componentDidMount() {
         window.document.addEventListener('keydown', this.handleKeyDown);
+        this.startTimer();
     }
 
     componentWillUnmount() {
