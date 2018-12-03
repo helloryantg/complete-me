@@ -10,7 +10,7 @@ const wordSchema = new Schema({
 const challengeSchema = new Schema({
     text: {type: String, default: 'Good Luck!'},
     multiplier: {type: Number, default: 1},
-    color: {type: String, default: 'grey'}
+    color: {type: String, default: 'DA70D6'}
 })
 
 const playerSchema = new Schema({

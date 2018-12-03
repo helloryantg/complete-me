@@ -1,31 +1,52 @@
 const Game = require('./models/game');
 
 const API_URL = 'http://api.datamuse.com/words?'
-// https://api.datamuse.com/words?sp=x??????e
+
+let io;
+var games = {};
 
 const challengesList = [
   {
     text: 'Words strongly associated with dogs',
     multiplier: 3,
-    color: 'red'
+    color: 'FF00FF'
   },
   {
     text: 'Words that start and end with the same letter',
     multiplier: 2,
-    color: 'red'
+    color: 'DA70D6'
+  },
+  {
+    text: 'Words that are 7 letters long',
+    multiplier: 3,
+    color: 'BA55D3'
+  },
+  {
+    text: 'Words that describe ghosts',
+    multiplier: 4,
+    color: '9400D3'
   }
 ];
 
-// countQuestionMarks = (lettersInBetweenCount) => {
-//   var questionMarkCount = '';
-//   for (var i = 0; i < lettersInBetweenCount; i++) {
-//     questionMarkCount += '?';
-//   }
-//   return questionMarkCount;
-// }
+// https://api.datamuse.com/words?sp=x??????e
+// https://api.datamuse.com/words?rel_trg=ghost
 
-let io;
-var games = {};
+// Fisher-Yates shuffle
+shuffleChallenges = (challenges) => {
+  var currentIdx = challenges.length;
+  var tempValue;
+  var randomIdx;
+
+  while (currentIdx !== 0) {
+    randomIdx = Math.floor(Math.random() * currentIdx);
+    currentIdx -= 1;
+
+    tempValue = challenges[currentIdx];
+    challenges[currentIdx] = challenges[randomIdx];
+    challenges[randomIdx] = tempValue;
+  }
+}
+
 
 generateRandomLetter = () => {
   var letter;
@@ -40,7 +61,6 @@ countWordScore = (word) => {
   var baseScore = word.length - 2;
   return baseScore;
 }
-
 
 module.exports = {
   
@@ -58,13 +78,23 @@ module.exports = {
       });
       
       socket.on('createGame', function(user) {
+        // Create new game
         var game = new Game();
+        
+        // Push player one into the game
         game.players.push({
           name: user.name,
           id: user._id,
         });
+
+        // Generate random letter to begin playing
         var randomLetter = generateRandomLetter();
         game.currentWord += randomLetter;
+
+        // Shuffle challenges list and list out two on the board
+        shuffleChallenges(challengesList);
+        game.challenges.push(...[challengesList[0], challengesList[1]]);
+
         game.save(function(err) {
           socket.gameId = game.id;
           socket.join(game.id);

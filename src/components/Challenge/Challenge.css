@@ -7,13 +7,35 @@
 
 .Challenge p {
     font-weight: 700;
-    margin: 4px;
+    margin: 10px;
+    font-size: 110%;
 }
 
 .multiplier {
-    border: 4px solid red;
+    border: 4px solid rgba(0, 0, 0, 0);
     border-radius: 6px;
-    padding: 2px;
-    color: red;
+    padding: 2px 4px;
     font-weight: 700;
+    position: relative;
+    right: 4px;
+}
+
+.color-DA70D6 {
+    color: #DA70D6;
+    border-color: #DA70D6;
+}
+
+.color-FF00FF {
+    color: #FF00FF;
+    border-color: #FF00FF;
+}
+
+.color-BA55D3 {
+    color: #BA55D3;
+    border-color: #BA55D3;
+}
+
+.color-9400D3 {
+    color: #9400D3;
+    border-color: #9400D3;
 }

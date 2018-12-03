@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './GameBoard.css';
-import GameBoardModal from '../GameBoardModal/GameBoardModal';
+// import GameBoardModal from '../GameBoardModal/GameBoardModal';
 import socket from '../../utils/socket';
 
 class GameBoard extends Component {
@@ -39,7 +39,7 @@ class GameBoard extends Component {
         return (
             <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                 <div className="fp-letter-container">
-                    {game.turnIdx === 0 ? <GameBoardModal player1={this.props.game.players[0]}/> : <GameBoardModal player2={this.props.game.players[1]}/>}
+                    {/* {game.turnIdx ? <GameBoardModal player1={this.props.game.players[0]}/> : <GameBoardModal player2={this.props.game.players[1]}/>} */}
                     
                     {/* {mergedList.length > 2 ? mergedList.forEach(w => w.word.split('').map((wo, idx) => <div key={idx} className="letter">{wo}</div>)) : null} */}
                     
