@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var http = require('http');
-var request = require('request-promise-native');
+// var rp = require('request-promise-native');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 

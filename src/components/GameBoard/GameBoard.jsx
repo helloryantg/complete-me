@@ -52,13 +52,9 @@ class GameBoard extends Component {
             <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                 <div className="fp-letter-container">
                     
-                    {/* Render GameBoardModal when it is not the player's turn */}
-                    {/* {game.turnIdx && this.props.game.players[0].id === this.props.user._id ? 
-                        null
-                        : 
-                        <GameBoardModal game={this.props.game} player2={this.props.game.players[1]}/>} */}
+                    {this.props.game.players[this.props.game.turnIdx].id === this.props.user._id ? null : <GameBoardModal game={this.props.game} />}
                     
-                    {/* {mergedList.length > 2 ? mergedList.forEach(w => w.word.split('').map((wo, idx) => <div key={idx} className="letter">{wo}</div>)) : null} */}
+                    {mergedList.length > 2 ? mergedList.forEach(w => w.word.split('').map((wo, idx) => <div key={idx} className="letter">{wo}</div>)) : null}
                     
                     {game.currentWord.split('').map((letter, idx) =>
                         <div key={idx} className="letter">{letter}</div>

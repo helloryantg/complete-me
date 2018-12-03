@@ -1,5 +1,5 @@
 const Game = require('./models/game');
-var request = require('request-promise-native');
+var rp = require('request-promise');
 
 const API_URL = 'http://api.datamuse.com/words?'
 
@@ -97,9 +97,9 @@ module.exports = {
       socket.on('onEnter', function() {
         var game = games[socket.gameId];
         
-        var match = request(`${API_URL}sp=${game.currentWord}`)
+        rp(`${API_URL}sp=${game.currentWord}`)
           .then(res => res.json())
-          .then(word => checkForMatch(word))
+          .then(word => console.log(word))
           .catch(err => console.log(err));
 
         function checkForMatch(word) {
@@ -112,6 +112,7 @@ module.exports = {
             game.save();
           }
         }
+
         // var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
         // wordList.push({
         //     word: game.currentWord,
