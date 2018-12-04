@@ -15,6 +15,7 @@ import FrontPage from '../FrontPage/FrontPage';
 import gameService from '../../utils/gameService';
 import GameResultsPage from '../GameResultsPage/GameResultsPage';
 import WaitingPage from '../WaitingPage/WaitingPage';
+import Instructions from '../../components/Instructions/Instructions';
 
 class App extends Component {
   constructor(props) {
@@ -85,20 +86,16 @@ class App extends Component {
         user={this.state.user}
       />;
     } else if (game && game.players.length === 1) {
-      // renders when there is only one player waiting for the next player to join
       page = <WaitingPage 
         game={this.state.game}
         handleCancelClick={this.handleCancelClick}
       />
     } else {
-      // no game
-      // refreshing the game while on waiting doesn't do it
       page = <FrontPage 
         user={this.state.user}
         handleLogout={this.handleLogout} 
         handleCreateGameClick={this.handleCreateGameClick}
       />;
-      // code is game id and 2nd player user id
     }
 
     return (
@@ -108,6 +105,9 @@ class App extends Component {
           <Switch>
             <Route exact path='/' render={() =>
               page
+            } />
+            <Route exact path='/instructions' render={() =>
+              <Instructions />
             } />
             <Route exact path ='/signup' render={({history}) => 
               <SignupPage 

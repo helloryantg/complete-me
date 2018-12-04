@@ -21,7 +21,6 @@ app.use(cors());
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
 app.use(require('./config/auth'));
-app.use('/api/games', require('./routes/api/games'));
 
 // Catch all route 
 app.get('/*', function (req, res) {

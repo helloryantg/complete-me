@@ -90,7 +90,7 @@ module.exports = {
         var game = games[gameCode];
         game.players.push({
           name: user.name,
-          id: user.id
+          id: user._id
         });
         socket.join(gameCode);
         socket.gameId = game.id;
@@ -144,11 +144,9 @@ module.exports = {
           io.to(game.id).emit('gameData', game);
           game.save();
         }
-
       });
 
     });
-  
   },
   
   getIo: function() {return io}
@@ -157,7 +155,7 @@ module.exports = {
 
 generateRandomLetter = () => {
   var letter;
-  var characters = "abcdefghijklmnopqrstuvw" // fix this
+  var characters = "aaabbccddeeeffgghhiiijjkkkllmmnnooppqrrssttuuvvwwxyz"
   var randomNumber = Math.floor(Math.random() * characters.length);
   letter = characters[randomNumber];
   return letter.toUpperCase();

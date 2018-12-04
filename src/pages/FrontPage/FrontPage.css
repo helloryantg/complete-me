@@ -55,6 +55,11 @@
     color: #FCEFD3;
 }
 
+.FrontPage .instructions {
+    background-color: #20B279;
+    font-size: 180%;
+}
+
 .FrontPage .code-input {
     height: 40px;
     width: 230px;

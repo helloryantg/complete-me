@@ -49,19 +49,18 @@ class GameBoard extends Component {
             if (game.players[1].wordList[idx]) mergedList.push(game.players[1].wordList[idx].word);
         });
 
-        console.log(mergedList)
-
         return (
             <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                 <div className="fp-letter-container">
+                    {this.props.game.players[this.props.game.turnIdx].id === this.props.user._id ? null : <GameBoardModal game={this.props.game}/>}
                     
-                    {this.props.game.players[this.props.game.turnIdx].id === this.props.user._id ? null : <GameBoardModal game={this.props.game} />}
+                    {mergedList.map(w => w.split('').map((letter, idx) => idx === w.length - 1 ? null : <div key={idx} className={`letter ${idx ? '' : 'first-last'}`}>{letter}</div>))}
                     
-                    {mergedList.map(w => w.split('').map((letter, idx) => idx === w.length -1 ? null : <div key={idx} className={`letter ${idx ? '' : 'first-last'}`}>{letter}</div>))}
-                    
-                    {game.currentWord.split('').map((letter, idx) =>
+                    {game.currentWord.split('').map((letter, idx) => idx === letter.length - 1 ? 
+                        <div key={idx} className="letter first-last">{letter}</div> 
+                        :
                         <div key={idx} className="letter">{letter}</div>
-                    )}
+                        )}
                 </div>
                 <input className="current-word" type="text" name="currentWord" onChange={this.handleChange} autoFocus/>
             </div>

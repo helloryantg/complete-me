@@ -1,17 +1,43 @@
 .Instructions {
-    width: 50%;
+    width: 100%;
     height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.game-rules {
-    width: 70%;
+.title {
+    font-weight: 700;
+    font-style: italic;
+}
+
+.Instructions .game-rules {
+    width: 600px;
+    height: auto;
     margin: 0 auto;
     background-color: #FCEFD3;
     padding: 20px;
     border-radius: 10px;
-    color: #ED7D54;
     line-height: 30px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 120%;
+}
+
+.Instructions .links {
+    background-color: #FCEFD3;
+    width: 240px;
+    height: 60px;
+    margin: 20px auto 0; 
+    border-radius: 10px;
+    border-bottom: 4px solid #EDA754;
+    color: #ED7D54;
+    font-size: 200%;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

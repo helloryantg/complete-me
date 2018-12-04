@@ -3,7 +3,7 @@ import './FrontPage.css';
 import { Link } from 'react-router-dom';
 import gameService from '../../utils/gameService';
 
-// import Instructions from '../../components/Instructions/Instructions';
+
 
 class FrontPage extends Component {
     constructor(props) {
@@ -38,6 +38,9 @@ class FrontPage extends Component {
                 <div className="letter">E</div>
             </div>
 
+            <div className="links instructions">
+                <Link to='/instructions'>INSTRUCTIONS</Link>
+            </div>
             <div className="links create-game">
                 <Link onClick={this.props.handleCreateGameClick} to='/'>CREATE GAME</Link>
             </div>
