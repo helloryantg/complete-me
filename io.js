@@ -5,6 +5,8 @@ const API_URL = 'http://api.datamuse.com/words?'
 
 let io;
 var games = {};
+var dogs = [];
+var ghosts = [];
 
 const challengesList = [
   {
@@ -33,6 +35,44 @@ const challengesList = [
   }
 ];
 
+
+fetchDogs = () => {
+  var dogWords = [];
+  var options = {
+    uri: `${API_URL}rel_trg=dogs`,
+    headers: { 'User-Agent': 'Request-Promise'},
+    json: true 
+  };
+
+  rp(options)
+    .then(function (dogs) {
+      dogWords.push(dogs); 
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+  return dogWords;
+}
+
+fetchGhosts = () => {
+  var ghostWords = [];
+  var options = {
+    uri: `${API_URL}rel_trg=ghosts`,
+    headers: { 'User-Agent': 'Request-Promise'},
+    json: true 
+  };
+
+  rp(options)
+    .then(function(ghosts) {
+      ghostWords.push(ghosts);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+  return ghostWords;
+}
+    
+
 module.exports = {
   
   init: function(httpServer) {
@@ -58,6 +98,10 @@ module.exports = {
         game.currentWord += randomLetter;
         shuffleChallenges(challengesList);
         game.challenges.push(...[challengesList[0], challengesList[1]]);
+        dogs.push(fetchDogs());
+        console.log(dogs);
+        ghosts.push(fetchGhosts());
+        console.log(ghosts);
         game.save(function(err) {
           socket.gameId = game.id;
           socket.join(game.id);
