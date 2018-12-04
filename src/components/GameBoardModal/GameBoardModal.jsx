@@ -4,6 +4,8 @@ import './GameBoardModal.css';
 const GameBoardModal = props => {
     return (
         <div className="GameBoardModal">
+
+
         </div>
     );
 }

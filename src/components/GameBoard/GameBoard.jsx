@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './GameBoard.css';
-// import GameBoardModal from '../GameBoardModal/GameBoardModal';
+import GameBoardModal from '../GameBoardModal/GameBoardModal';
 import socket from '../../utils/socket';
 
 class GameBoard extends Component {
@@ -46,16 +46,18 @@ class GameBoard extends Component {
 
         game.players[0].wordList.forEach(function(wordObj, idx) {
             mergedList.push(wordObj.word);
-            if (game.players[1].wordList[idx]) mergedList.push(game.players[1].wordList[idx]);
+            if (game.players[1].wordList[idx]) mergedList.push(game.players[1].wordList[idx].word);
         });
+
+        console.log(mergedList)
 
         return (
             <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                 <div className="fp-letter-container">
                     
-                    {/* {this.props.game.players[this.props.game.turnIdx].id === this.props.user._id ? null : <GameBoardModal game={this.props.game} />} */}
+                    {this.props.game.players[this.props.game.turnIdx].id === this.props.user._id ? null : <GameBoardModal game={this.props.game} />}
                     
-                    {/* {mergedList.forEach(w => w.word.split('').map((wo, idx) => <div key={idx} className="letter">{wo}</div>))} */}
+                    {mergedList.map(w => w.split('').map((letter, idx) => idx === w.length -1 ? null : <div key={idx} className={`letter ${idx ? '' : 'first-last'}`}>{letter}</div>))}
                     
                     {game.currentWord.split('').map((letter, idx) =>
                         <div key={idx} className="letter">{letter}</div>

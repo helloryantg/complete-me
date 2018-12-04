@@ -26,18 +26,18 @@ function fetchObjects(category) {
 }
 
 const challengesList = [
-  {
-    text: 'Words that start and end with the same letter',
-    multiplier: 2,
-    color: 'DA5700',
-    code: 'SLT'
-  },
-  {
-    text: 'Words that are 7 letters long',
-    multiplier: 3,
-    color: '56A7FF',
-    code: 'SLL'
-  },
+  // {
+  //   text: 'Words that start and end with the same letter',
+  //   multiplier: 2,
+  //   color: 'DA5700',
+  //   code: 'SLT'
+  // },
+  // {
+  //   text: 'Words that are 7 letters long',
+  //   multiplier: 3,
+  //   color: '56A7FF',
+  //   code: 'SLL'
+  // },
   {
     text: 'Words strongly associated with dogs',
     multiplier: 3,
@@ -157,7 +157,7 @@ module.exports = {
 
 generateRandomLetter = () => {
   var letter;
-  var characters = "abcdefghijklmnopqrstuvwxyz"
+  var characters = "abcdefghijklmnopqrstuvw" // fix this
   var randomNumber = Math.floor(Math.random() * characters.length);
   letter = characters[randomNumber];
   return letter.toUpperCase();
@@ -179,10 +179,11 @@ shuffleChallenges = (challenges) => {
 }
 
 function checkChallenges(game) {
-  var word = game.currentWord
+  var word = game.currentWord;
+  var baseScore = game.currentWord.length - 2;
   let wordStruct = {
     word: game.currentWord,
-    score: 0,
+    score: baseScore,
     challenges: []
   };
   game.challenges.forEach(challenge => {
@@ -191,7 +192,7 @@ function checkChallenges(game) {
       if (word[0] === word[word.length - 1]) {
         console.log('SLT');
           wordStruct = {
-            score: wordStruct.score += countWordScore(game, 'SLT'),
+            score: wordStruct.score += baseScore * challenge.multiplier,
             challenges: wordStruct.challenges.push(challenge)
           };
         } 
@@ -201,7 +202,7 @@ function checkChallenges(game) {
         if (word.length === 7) {
           console.log('SLL');
           wordStruct = {
-            score: wordStruct.score += countWordScore(game, 'SLL'),
+            score: wordStruct.score += baseScore * challenge.multiplier,
             challenges: wordStruct.challenges.push(challenge)
           }
         }
@@ -211,9 +212,10 @@ function checkChallenges(game) {
         // dogs
         var dog = dogs.find(d => d.word === word);
         if (!dog) return;
+        
         console.log('WAD');
         wordStruct = {
-          score: wordStruct.score += countWordScore(game, 'WAD'),
+          score: wordStruct.score += baseScore * challenge.multiplier,
           challenges: wordStruct.challenges.push(challenge)
         }
         break;
@@ -224,31 +226,18 @@ function checkChallenges(game) {
         if (!ghost) return;
         console.log('WDG');
         wordStruct = {
-          score: wordStruct.score += countWordScore(game, 'WDG'),
+          score: wordStruct.score += baseScore * challenge.multiplier,
           challenges: wordStruct.challenges.push(challenge)
         }   
         break;
     }
-    var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
-    console.log(wordList);
-    wordList.push({
-      word: game.currentWord,
-      score: wordStruct.score,
-      challenges: wordStruct.challenges
-    });
-    console.log(wordStruct);
-    game.currentWord = game.currentWord[game.currentWord.length - 1];
-    game.turnIdx = game.turnIdx ? 0 : 1;
-    io.to(game.id).emit('gameData', game);
-    game.save();
-  
+    
   });
-}
-
-countWordScore = (game, code) => {
-  var baseScore = game.currentWord.length - 2;
-  var multiplier = game.challenges.find(c => c.code === code).multiplier; 
-  console.log('multiplier ' + multiplier);
-  var multiplyBy = !multiplier ? 1 : multiplier;
-  return baseScore * multiplyBy;
+  var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
+  wordList.push(wordStruct);
+  console.log(wordStruct);
+  game.currentWord = game.currentWord[game.currentWord.length - 1];
+  game.turnIdx = game.turnIdx ? 0 : 1;
+  io.to(game.id).emit('gameData', game);
+  game.save();
 }
