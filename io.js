@@ -207,27 +207,15 @@ function checkChallenges(word, game) {
       
         rp(options)
           .then(function (dogs) {
-              console.log(dogs);
-              matchDogs(dogs);
+              var dog = dogs.find(d => d.word === game.currentWord);
+              if (dog.word === game.currentWord) pushNewWord(dog.word, challenge.code === 'WAD')
           })
           .catch(function (err) {
               console.log(err);
           });
-        
-        function matchDogs(dogs) {
-          return dogs.find(function(d) {
-             d.word === game.currentWord;
-          })
-        }
-        console.log('matchDogs: ' + matchDogs);
-        // var matchDogs = request(`${API_URL}rel_trg=dogs`)
-        // .then(res => res.json())
-        // .then(words => words.find(w => w.word === word));
-        // if (matchDogs) pushNewWord(matchDogs, challenge.code === 'WAD')
         break;
       
       case 'WDG':
-
         var options = {
           uri: `${API_URL}rel_trg=ghosts`,
           headers: { 'User-Agent': 'Request-Promise'},
@@ -236,23 +224,13 @@ function checkChallenges(word, game) {
       
         rp(options)
           .then(function (ghosts) {
-              console.log(ghosts);
-              matchGhosts(ghosts);
+              var ghost = ghosts.filter(g => g.word === game.currentWord);
+              if (ghost.word === game.currentWord) pushNewWord(ghost.word, challenge.code === 'WDG')
+              
           })
           .catch(function (err) {
               console.log(err);
           });
-        
-        function matchGhosts(ghosts) {
-          return ghosts.find(function(g) {
-            g.word === game.currentWord;
-          })
-        }
-        console.log('matchGhosts: ' + matchGhosts);
-        // var matchGhosts = request(`${API_URL}rel_trg=ghosts`)
-        // .then(res => res.json())
-        // .then(words => words.find(w => w.word === game.currentWord));
-        // if (matchGhosts) pushNewWord(matchGhosts, challenge.code === 'WDG')
         break;
       default: pushNewWord(word);
     }
