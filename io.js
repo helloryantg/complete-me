@@ -105,35 +105,6 @@ module.exports = {
         io.to(game.id).emit('gameData', game);
       });
       
-      socket.on('onEnter', async function() {
-        var game = games[socket.gameId];
-        
-        var options = {
-          uri: `${API_URL}sp=${game.currentWord}`,
-          headers: { 'User-Agent': 'Request-Promise'},
-          json: true 
-        };
-        var words = await rp(options).then(items => items);
-        checkForMatch(words);
-
-        // Since we are getting an array of words spelled similarly to the word in question,
-        // find a word that is spelled exactly as the currentWord
-        // if there is a match - check the 4 current challenges for a match
-        // if not, return the rendered letter - which was the last letter of the previous word
-        function checkForMatch(words) {
-          console.log(words[0].word);
-          console.log(game.currentWord.toLowerCase());
-          if (words[0].word === game.currentWord.toLowerCase()) {
-            checkChallenges(game)
-          } else {
-            game.currentWord = game.currentWord[game.currentWord.length - 1];
-            io.to(game.id).emit('gameData', game);
-            game.save();
-          }
-        }
-
-      });
-      
       socket.on('onBackspace', function() {
         var game = games[socket.gameId];
         if (game.currentWord.length < 2) return;
@@ -148,15 +119,36 @@ module.exports = {
         if (!game) return;
         game.players[game.turnIdx].time--;
         io.to(game.id).emit('gameData', game);
-      })
+      });
       
       socket.on('cancelGame', function(user) {
         var game = games[socket.gameId];
         delete game;
         io.emit('gameData');
-      })
+      });
+
+      socket.on('onEnter', async function() {
+        var game = games[socket.gameId];
+        
+        var options = {
+          uri: `${API_URL}sp=${game.currentWord}`,
+          headers: { 'User-Agent': 'Request-Promise'},
+          json: true 
+        };
+        var words = await rp(options).then(items => items);
+
+        if (words[0].word === game.currentWord.toLowerCase()) {
+          checkChallenges(game);
+        } else {
+          game.currentWord = game.currentWord[game.currentWord.length - 1];
+          io.to(game.id).emit('gameData', game);
+          game.save();
+        }
+
+      });
 
     });
+  
   },
   
   getIo: function() {return io}
@@ -187,6 +179,7 @@ shuffleChallenges = (challenges) => {
 }
 
 function checkChallenges(game) {
+  var word = game.currentWord
   let wordStruct = {
     word: game.currentWord,
     score: 0,
@@ -195,12 +188,11 @@ function checkChallenges(game) {
   game.challenges.forEach(challenge => {
     switch (challenge.code) {
       case 'SLT':
+      if (word[0] === word[word.length - 1]) {
         console.log('SLT');
-        if (word[0] === word[word.length - 1]) {
           wordStruct = {
-            word: game.currentWord,
-            score: countWordScore(game, 'SLT'), // add countwordscore to the previous score
-            challenges: game.challenges.push(challenge)
+            score: wordStruct.score += countWordScore(game, 'SLT'),
+            challenges: wordStruct.challenges.push(challenge)
           };
         } 
         break;
@@ -209,67 +201,54 @@ function checkChallenges(game) {
         if (word.length === 7) {
           console.log('SLL');
           wordStruct = {
-            word: game.currentWord,
-            score: countWordScore(game, 'SLL'),
-            challenges: game.challenges.push(challenge)
+            score: wordStruct.score += countWordScore(game, 'SLL'),
+            challenges: wordStruct.challenges.push(challenge)
           }
         }
         break;
 
       case 'WAD':
         // dogs
-        console.log('WAD');
         var dog = dogs.find(d => d.word === word);
         if (!dog) return;
+        console.log('WAD');
         wordStruct = {
-          word: game.currentWord,
-          score: countWordScore(game, 'SLT'),
-          challenges: game.challenges.push(challenge)
+          score: wordStruct.score += countWordScore(game, 'WAD'),
+          challenges: wordStruct.challenges.push(challenge)
         }
         break;
       
       case 'WDG':
         // ghosts
-        console.log('WDG');
         var ghost = ghosts.find(g => g.word === word);
         if (!ghost) return;
+        console.log('WDG');
         wordStruct = {
-          word: game.currentWord,
-          score: countWordScore(game, 'WDG'),
-          challenges: game.challenges.push(challenge)
+          score: wordStruct.score += countWordScore(game, 'WDG'),
+          challenges: wordStruct.challenges.push(challenge)
         }   
         break;
-
-      default:
-        wordStruct = {
-          word: game.currentWord,
-          score: game.currentWord.length - 2,
-          challenges: []
-        };
     }
+    var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
+    console.log(wordList);
+    wordList.push({
+      word: game.currentWord,
+      score: wordStruct.score,
+      challenges: wordStruct.challenges
+    });
+    console.log(wordStruct);
+    game.currentWord = game.currentWord[game.currentWord.length - 1];
+    game.turnIdx = game.turnIdx ? 0 : 1;
+    io.to(game.id).emit('gameData', game);
+    game.save();
+  
   });
 }
 
 countWordScore = (game, code) => {
-  var word = game.currentWord;
-  var baseScore = word.length - 2;
+  var baseScore = game.currentWord.length - 2;
   var multiplier = game.challenges.find(c => c.code === code).multiplier; 
+  console.log('multiplier ' + multiplier);
   var multiplyBy = !multiplier ? 1 : multiplier;
   return baseScore * multiplyBy;
 }
-
-
-
-// function pushNewWord(word, challenge) {
-//   var game = games[socket.gameId];
-//   var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
-//   wordList.push({
-//     word,
-//     score: countWordScore(word, challenge.multiplier),
-//     challenges: game.wordList.word.push(challenge)
-//   });
-//   game.currentWord = game.currentWord[game.currentWord.length - 1];
-//   game.turnIdx = game.turnIdx ? 0 : 1;
-//   io.to(game.id).emit('gameData', game);
-//   game.save();
-// }
