@@ -31,6 +31,12 @@ class App extends Component {
     gameService.createGame(this.state.user);
   }
 
+  handleCancelClick = (e) => {
+    e.preventDefault();
+    gameService.cancelGame(this.state.user);
+  }
+  
+
 /*----- Login/Logout -----*/
 
   handleLogout = () => {
@@ -68,7 +74,10 @@ class App extends Component {
 
     if (game && game.players.length === 2 && !game.players[0].time && !game.players[1].time) {
       // renders when there are 2 players and run has run out for both of them
-      page = <GameResultsPage />
+      page = <GameResultsPage 
+        game={this.state.game}
+        user={this.state.user}
+      />
     } else if (game && game.players.length === 2) {
       // renders when there are 2 players and now the game is in play
       page = <GamePage 
@@ -77,7 +86,10 @@ class App extends Component {
       />;
     } else if (game && game.players.length === 1) {
       // renders when there is only one player waiting for the next player to join
-      page = <WaitingPage game={this.state.game}/>
+      page = <WaitingPage 
+        game={this.state.game}
+        handleCancelClick={this.handleCancelClick}
+      />
     } else {
       // no game
       // refreshing the game while on waiting doesn't do it

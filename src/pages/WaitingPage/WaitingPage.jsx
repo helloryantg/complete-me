@@ -1,5 +1,6 @@
 import React from 'react';
 import './WaitingPage.css';
+import { Link } from 'react-router-dom';
 
 const WaitingPage = props => {
     return (
@@ -21,6 +22,7 @@ const WaitingPage = props => {
 
             <div className="gameCode">{props.game._id}</div>
             <p className="game-text">Send this code to your opponent to begin!</p>
+            <Link onClick={props.handleCancelClick} className="links cancel" to='/'>Cancel</Link>
         </div>
     );
 }
