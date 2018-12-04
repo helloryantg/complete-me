@@ -82,9 +82,9 @@ module.exports = {
         var game = games[socket.gameId];
         if (!game) return;
         game.currentWord += character;
-        game.save().then(() => {
-          io.to(game.id).emit('gameData', game);
-        });
+        io.to(game.id).emit('gameData', game);
+        // game.save().then(() => {
+        // });
       });
       
       // Enter function
