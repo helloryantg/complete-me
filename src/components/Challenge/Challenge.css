@@ -6,7 +6,6 @@
 }
 
 .Challenge p {
-    font-weight: 700;
     margin: 20px;
     font-size: 110%;
 }
@@ -20,22 +19,18 @@
     right: 4px;
 }
 
-.color-DA70D6 {
-    color: #DA70D6;
-    border-color: #DA70D6;
+.color-DA5700 {
+    color: white;
+    background-color: #DA5700;
 }
 
-.color-FF00FF {
-    color: #FF00FF;
-    border-color: #FF00FF;
+.color-56A7FF {
+    color: white;
+    background-color: #56A7FF;
 }
 
-.color-BA55D3 {
-    color: #BA55D3;
-    border-color: #BA55D3;
+.color-008E7D {
+    color: white;
+    background-color: #008E7D;
 }
 
-.color-9400D3 {
-    color: #9400D3;
-    border-color: #9400D3;
-}

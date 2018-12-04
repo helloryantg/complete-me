@@ -5,7 +5,7 @@ const challengeSchema = new Schema({
     text: {type: String, default: 'Good Luck!'},
     multiplier: {type: Number, default: 1},
     color: {type: String, default: 'DA70D6'},
-    code: Number
+    code: String
 });
 
 const wordSchema = new Schema({

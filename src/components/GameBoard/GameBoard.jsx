@@ -55,7 +55,7 @@ class GameBoard extends Component {
                     
                     {/* {this.props.game.players[this.props.game.turnIdx].id === this.props.user._id ? null : <GameBoardModal game={this.props.game} />} */}
                     
-                    {/* {mergedList.length > 2 ? mergedList.forEach(w => w.word.split('').map((wo, idx) => <div key={idx} className="letter">{wo}</div>)) : null} */}
+                    {/* {mergedList.forEach(w => w.word.split('').map((wo, idx) => <div key={idx} className="letter">{wo}</div>))} */}
                     
                     {game.currentWord.split('').map((letter, idx) =>
                         <div key={idx} className="letter">{letter}</div>
@@ -68,4 +68,3 @@ class GameBoard extends Component {
 }
 
 export default GameBoard;
-
