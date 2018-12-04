@@ -5,8 +5,25 @@ const API_URL = 'http://api.datamuse.com/words?'
 
 let io;
 var games = {};
-var dogs = [];
-var ghosts = [];
+var dogs;
+var ghosts;
+
+(async function() {
+  dogs = await fetchObjects('dogs');
+  ghosts = await fetchObjects('ghosts');
+})();
+
+function fetchObjects(category) {
+  var options = {
+    uri: `${API_URL}rel_trg=${category}`,
+    headers: { 'User-Agent': 'Request-Promise'},
+    json: true
+    // resolveWithFullResponse: true
+  }
+  return rp(options)
+    .then(items => items)
+    .catch(err => console.log(err));
+}
 
 const challengesList = [
   {
@@ -34,45 +51,7 @@ const challengesList = [
     code: 'WDG'
   }
 ];
-
-
-fetchDogs = () => {
-  var dogWords = [];
-  var options = {
-    uri: `${API_URL}rel_trg=dogs`,
-    headers: { 'User-Agent': 'Request-Promise'},
-    json: true 
-  };
-
-  rp(options)
-    .then(function (dogs) {
-      dogWords.push(dogs); 
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-  return dogWords;
-}
-
-fetchGhosts = () => {
-  var ghostWords = [];
-  var options = {
-    uri: `${API_URL}rel_trg=ghosts`,
-    headers: { 'User-Agent': 'Request-Promise'},
-    json: true 
-  };
-
-  rp(options)
-    .then(function(ghosts) {
-      ghostWords.push(ghosts);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-  return ghostWords;
-}
     
-
 module.exports = {
   
   init: function(httpServer) {
@@ -88,7 +67,7 @@ module.exports = {
         io.emit('gameData', game);
       });
       
-      socket.on('createGame', function(user) {
+      socket.on('createGame', async function(user) {
         var game = new Game();
         game.players.push({
           name: user.name,
@@ -98,10 +77,7 @@ module.exports = {
         game.currentWord += randomLetter;
         shuffleChallenges(challengesList);
         game.challenges.push(...[challengesList[0], challengesList[1]]);
-        dogs.push(fetchDogs());
-        console.log(dogs);
-        ghosts.push(fetchGhosts());
-        console.log(ghosts);
+
         game.save(function(err) {
           socket.gameId = game.id;
           socket.join(game.id);
@@ -127,32 +103,19 @@ module.exports = {
         if (!game) return;
         game.currentWord += character;
         io.to(game.id).emit('gameData', game);
-        // game.save().then(() => {
-        // });
       });
       
-      // Enter function
-      socket.on('onEnter', function() {
+      socket.on('onEnter', async function() {
         var game = games[socket.gameId];
         
-        // On pressing enter - send a request to the datamuse api and pass in the current word
-        // the data returned is a an array of objects that are similarly spelled as the current word
         var options = {
           uri: `${API_URL}sp=${game.currentWord}`,
           headers: { 'User-Agent': 'Request-Promise'},
           json: true 
         };
-      
-        rp(options)
-          .then(function (words) {
-              console.log(words);
-              checkForMatch(words);
-          })
-          .catch(function (err) {
-              console.log(err);
-          });
+        var words = await rp(options).then(items => items);
+        checkForMatch(words);
 
-        
         // Since we are getting an array of words spelled similarly to the word in question,
         // find a word that is spelled exactly as the currentWord
         // if there is a match - check the 4 current challenges for a match
@@ -161,7 +124,7 @@ module.exports = {
           console.log(words[0].word);
           console.log(game.currentWord.toLowerCase());
           if (words[0].word === game.currentWord.toLowerCase()) {
-            checkChallenges(game.currentWord, game)
+            checkChallenges(game)
           } else {
             game.currentWord = game.currentWord[game.currentWord.length - 1];
             io.to(game.id).emit('gameData', game);
@@ -185,7 +148,6 @@ module.exports = {
         if (!game) return;
         game.players[game.turnIdx].time--;
         io.to(game.id).emit('gameData', game);
-        // game.save();
       })
       
       socket.on('cancelGame', function(user) {
@@ -224,80 +186,90 @@ shuffleChallenges = (challenges) => {
   }
 }
 
-function checkChallenges(word, game) {
+function checkChallenges(game) {
+  let wordStruct = {
+    word: game.currentWord,
+    score: 0,
+    challenges: []
+  };
   game.challenges.forEach(challenge => {
-    
     switch (challenge.code) {
       case 'SLT':
+        console.log('SLT');
         if (word[0] === word[word.length - 1]) {
-          console.log('SLT')
-          pushNewWord(word, challenge.code === 'SLT')
+          wordStruct = {
+            word: game.currentWord,
+            score: countWordScore(game, 'SLT'), // add countwordscore to the previous score
+            challenges: game.challenges.push(challenge)
+          };
         } 
         break;
 
       case 'SLL':
         if (word.length === 7) {
-          console.log('SLL')
-          pushNewWord(word, challenge.code === 'SLL')
+          console.log('SLL');
+          wordStruct = {
+            word: game.currentWord,
+            score: countWordScore(game, 'SLL'),
+            challenges: game.challenges.push(challenge)
+          }
         }
         break;
 
       case 'WAD':
-        var options = {
-          uri: `${API_URL}rel_trg=dogs`,
-          headers: { 'User-Agent': 'Request-Promise'},
-          json: true 
-        };
-      
-        rp(options)
-          .then(function (dogs) {
-              var dog = dogs.find(d => d.word === game.currentWord);
-              if (dog.word === game.currentWord) pushNewWord(dog.word, challenge.code === 'WAD')
-          })
-          .catch(function (err) {
-              console.log(err);
-          });
+        // dogs
+        console.log('WAD');
+        var dog = dogs.find(d => d.word === word);
+        if (!dog) return;
+        wordStruct = {
+          word: game.currentWord,
+          score: countWordScore(game, 'SLT'),
+          challenges: game.challenges.push(challenge)
+        }
         break;
       
       case 'WDG':
-        var options = {
-          uri: `${API_URL}rel_trg=ghosts`,
-          headers: { 'User-Agent': 'Request-Promise'},
-          json: true 
-        };
-      
-        rp(options)
-          .then(function (ghosts) {
-              var ghost = ghosts.filter(g => g.word === game.currentWord);
-              if (ghost.word === game.currentWord) pushNewWord(ghost.word, challenge.code === 'WDG')
-              
-          })
-          .catch(function (err) {
-              console.log(err);
-          });
+        // ghosts
+        console.log('WDG');
+        var ghost = ghosts.find(g => g.word === word);
+        if (!ghost) return;
+        wordStruct = {
+          word: game.currentWord,
+          score: countWordScore(game, 'WDG'),
+          challenges: game.challenges.push(challenge)
+        }   
         break;
-      default: pushNewWord(word);
+
+      default:
+        wordStruct = {
+          word: game.currentWord,
+          score: game.currentWord.length - 2,
+          challenges: []
+        };
     }
   });
 }
 
-function pushNewWord(word, challenge) {
-  var game = games[socket.gameId];
-  var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
-  wordList.push({
-    word,
-    score: countWordScore(word, challenge.multiplier),
-    challenges: game.wordList.word.push(challenge)
-  });
-  game.currentWord = game.currentWord[game.currentWord.length - 1];
-  game.turnIdx = game.turnIdx ? 0 : 1;
-  io.to(game.id).emit('gameData', game);
-  game.save();
-}
-
-countWordScore = (word, multiplier) => {
-  var multiplyBy = !multiplier ? 1 : multiplier;
+countWordScore = (game, code) => {
+  var word = game.currentWord;
   var baseScore = word.length - 2;
-  
+  var multiplier = game.challenges.find(c => c.code === code).multiplier; 
+  var multiplyBy = !multiplier ? 1 : multiplier;
   return baseScore * multiplyBy;
 }
+
+
+
+// function pushNewWord(word, challenge) {
+//   var game = games[socket.gameId];
+//   var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
+//   wordList.push({
+//     word,
+//     score: countWordScore(word, challenge.multiplier),
+//     challenges: game.wordList.word.push(challenge)
+//   });
+//   game.currentWord = game.currentWord[game.currentWord.length - 1];
+//   game.turnIdx = game.turnIdx ? 0 : 1;
+//   io.to(game.id).emit('gameData', game);
+//   game.save();
+// }

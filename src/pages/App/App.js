@@ -72,7 +72,7 @@ class App extends Component {
     let game = this.state.game;
     let page;
 
-    if (game && game.players.length === 2 && game.players[0].time === 0 && game.players[1].time === 0) {
+    if (game && game.players.length === 2 && !game.players[0].time && !game.players[1].time) {
       // renders when there are 2 players and run has run out for both of them
       page = <GameResultsPage 
         game={this.state.game}
