@@ -23,14 +23,14 @@ p {
     overflow-y: scroll;
 }
 
-.PlayerWords .color-DA5700 {
+.PlayerWords p .color-DA5700 {
     color: #DA5700;;
 }
 
-.PlayerWords .color-56A7FF {
+.PlayerWords p .color-56A7FF {
     color:#56A7FF;
 }
 
-.PlayerWords .color-008E7D {
+.PlayerWords p .color-008E7D {
     color:#008E7D;
 }
