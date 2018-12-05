@@ -5,12 +5,14 @@ import socket from '../../utils/socket';
 
 class GameBoard extends Component {
     handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            socket.emit('onEnter');
-        } else if (e.keyCode >= 65 && e.keyCode <= 90) {
-            socket.emit('characterPressed', e.key.toUpperCase());            
-        } else if (e.keyCode === 8) {
-            socket.emit('onBackspace');
+        if (this.props.game.turnIdx !== this.props.game.players) {
+            if (e.key === 'Enter') {
+                socket.emit('onEnter');
+            } else if (e.keyCode >= 65 && e.keyCode <= 90) {
+                socket.emit('characterPressed', e.key.toUpperCase());            
+            } else if (e.keyCode === 8) {
+                socket.emit('onBackspace');
+            }
         }
     }
 
