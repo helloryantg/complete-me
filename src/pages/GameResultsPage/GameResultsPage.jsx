@@ -21,9 +21,9 @@ const GameResultsPage = props => {
                 > 
             props.game.player[1].wordList.reduce((acc, word) => acc + word.score, 0) 
                 ? 
-            <p>Player 1 wins</p>
+            <p>Player 1 Wins!</p>
                 :
-            <p>Player 2 wins</p>   
+            <p>Player 2 Wins</p>   
             }
         </div>
     );

@@ -14,3 +14,10 @@
     border-radius: 8px;
     padding: 2px 8px;
 }
+
+.MiddleHeader a {
+    color: grey;
+    font-weight: 700;
+    position: relative;
+    bottom: 70px;
+}

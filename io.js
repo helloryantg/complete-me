@@ -5,55 +5,65 @@ const API_URL = 'http://api.datamuse.com/words?'
 
 let io;
 var games = {};
-var dogs;
-var ghosts;
+// var dogs;
+// var ghosts;
 
-(async function() {
-  dogs = await fetchObjects('dogs');
-  ghosts = await fetchObjects('ghosts');
-})();
+// (async function() {
+//   dogs = await fetchObjects('dogs');
+//   ghosts = await fetchObjects('ghosts');
+// })();
 
-function fetchObjects(category) {
-  var options = {
-    uri: `${API_URL}rel_trg=${category}`,
-    headers: { 'User-Agent': 'Request-Promise'},
-    json: true
-    // resolveWithFullResponse: true
-  }
-  return rp(options)
-    .then(items => items)
-    .catch(err => console.log(err));
-}
+// function fetchObjects(category) {
+//   var options = {
+//     uri: `${API_URL}rel_trg=${category}`,
+//     headers: { 'User-Agent': 'Request-Promise'},
+//     json: true
+//   }
+//   return rp(options)
+//     .then(items => items)
+//     .catch(err => console.log(err));
+// }
 
 const challengesList = [
-  // {
-  //   text: 'Words that start and end with the same letter',
-  //   multiplier: 2,
-  //   color: 'DA5700',
-  //   code: 'SLT'
-  // },
-  // {
-  //   text: 'Words that are 7 letters long',
-  //   multiplier: 3,
-  //   color: '56A7FF',
-  //   code: 'SLL'
-  // },
   {
-    text: 'Words strongly associated with dogs',
-    multiplier: 3,
-    color: '56A7FF',
-    code: 'WAD'
+    text: 'Words that start and end with the same letter',
+    multiplier: 2,
+    color: 'DA5700',
+    code: 'SLT'
   },
   {
-    text: 'Words that describe ghosts',
-    multiplier: 4,
-    color: '008E7D',
-    code: 'WDG'
+    text: 'Words that are 7 letters long',
+    multiplier: 3,
+    color: '56A7FF',
+    code: 'SLL'
+  },
+  {
+    text: 'Words that are 3 letters long',
+    multiplier: 5,
+    color: 'DA5700',
+    code: 'TLL'
+  },
+  {
+    text: 'Words that are 4 letters long',
+    multiplier: -2,
+    color: 'DA5700',
+    code: 'NEG'
   }
+  // {
+  //   text: 'Words strongly associated with dogs',
+  //   multiplier: 3,
+  //   color: '56A7FF',
+  //   code: 'WAD'
+  // },
+  // {
+  //   text: 'Words that describe ghosts',
+  //   multiplier: 4,
+  //   color: '008E7D',
+  //   code: 'WDG'
+  // }
 ];
     
 module.exports = {
-  
   init: function(httpServer) {
     io = require('socket.io')(httpServer);
     io.on('connection', function(socket) {
@@ -107,6 +117,7 @@ module.exports = {
       
       socket.on('onBackspace', function() {
         var game = games[socket.gameId];
+        if (!game) return;
         if (game.currentWord.length < 2) return;
         var removedLast = game.currentWord.substring(0, game.currentWord.length - 1);
         game.currentWord = removedLast;
@@ -140,7 +151,7 @@ module.exports = {
         if (words[0].word === game.currentWord.toLowerCase()) {
           checkChallenges(game);
         } else {
-          game.currentWord = game.currentWord[game.currentWord.length - 1];
+          game.currentWord = game.currentWord[0];
           io.to(game.id).emit('gameData', game);
           game.save();
         }
@@ -148,9 +159,7 @@ module.exports = {
 
     });
   },
-  
   getIo: function() {return io}
-
 };
 
 generateRandomLetter = () => {
@@ -188,8 +197,8 @@ function checkChallenges(game) {
     switch (challenge.code) {
       case 'SLT':
       if (word[0] === word[word.length - 1]) {
-        console.log('SLT');
           wordStruct = {
+            word: game.currentWord,
             score: wordStruct.score += baseScore * challenge.multiplier,
             challenges: wordStruct.challenges.push(challenge)
           };
@@ -198,36 +207,58 @@ function checkChallenges(game) {
 
       case 'SLL':
         if (word.length === 7) {
-          console.log('SLL');
           wordStruct = {
+            word: game.currentWord,
             score: wordStruct.score += baseScore * challenge.multiplier,
             challenges: wordStruct.challenges.push(challenge)
           }
         }
         break;
-
-      case 'WAD':
-        // dogs
-        var dog = dogs.find(d => d.word === word);
-        if (!dog) return;
         
-        console.log('WAD');
-        wordStruct = {
-          score: wordStruct.score += baseScore * challenge.multiplier,
-          challenges: wordStruct.challenges.push(challenge)
-        }
-        break;
+        case 'TLL':
+          if (word.length === 3) {
+            wordStruct = {
+              word: game.currentWord,
+              score: wordStruct.score += baseScore * challenge.multiplier,
+              challenges: wordStruct.challenges.push(challenge)
+            }
+          }
+          break;
+
+        case 'NEG':
+          if (word.length === 4) {
+            wordStruct = {
+              word: game.currentWord,
+              score: wordStruct.score += baseScore * challenge.multiplier,
+              challenges: wordStruct.challenges.push(challenge)
+            }
+          }
+          break;
+          
+      // case 'WAD':
+      //   // dogs
+      //   var dog = dogs.find(d => d.word.toUpperCase() === word);
+      //   if (!dog) return;
+        
+      //   console.log('WAD');
+      //   wordStruct = {
+      //     word: game.currentWord,
+      //     score: wordStruct.score += baseScore * challenge.multiplier,
+      //     challenges: wordStruct.challenges.push(challenge)
+      //   }
+      //   break;
       
-      case 'WDG':
-        // ghosts
-        var ghost = ghosts.find(g => g.word === word);
-        if (!ghost) return;
-        console.log('WDG');
-        wordStruct = {
-          score: wordStruct.score += baseScore * challenge.multiplier,
-          challenges: wordStruct.challenges.push(challenge)
-        }   
-        break;
+      // case 'WDG':
+      //   // ghosts
+      //   var ghost = ghosts.find(g => g.word.toUpperCase() === word);
+      //   if (!ghost) return;
+      //   console.log('WDG');
+      //   wordStruct = {
+      //     word: game.currentWord,
+      //     score: wordStruct.score += baseScore * challenge.multiplier,
+      //     challenges: wordStruct.challenges.push(challenge)
+      //   }   
+      //   break;
     }
     
   });

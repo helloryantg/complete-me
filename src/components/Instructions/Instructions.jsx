@@ -21,7 +21,7 @@ const Instructions = props => {
             </div>
             <div className="game-rules">
                 <p className="title">Complete Me!</p>
-                <p>Multiplayer word completion game that tests your English vocabulary</p>
+                <p>Multiplayer word completion game that tests your English vocabulary.</p>
                 <p>Complete the word using the last letter of the previous word.</p>
                 <p>Longer words get more points. 1 Point for every letter in between.</p>
                 <p>Match words to the word challenges and acquire score multipliers!</p>

@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  // Redirect
 } from 'react-router-dom';
 import userService from '../../utils/userService';
 import './App.css';
@@ -84,6 +83,7 @@ class App extends Component {
       page = <GamePage 
         game={this.state.game}
         user={this.state.user}
+        handleCancelClick={this.handleCancelClick}
       />;
     } else if (game && game.players.length === 1) {
       page = <WaitingPage 

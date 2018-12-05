@@ -23,6 +23,8 @@
 }
 
 .WaitingPage .cancel {
+    position: relative;
+    top: 30px;
     background-color: #ED7D54;
     color: #FCEFD3;
 }

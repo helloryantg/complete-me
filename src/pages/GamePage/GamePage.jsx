@@ -9,6 +9,7 @@ const GamePage = props => {
         <div className="GamePage">
             <Header 
                 game={props.game}
+                handleCancelClick={props.handleCancelClick}
                 />
             <GameBoard 
                 game={props.game}

@@ -11,6 +11,7 @@ const Header = props => {
                 />
             <MiddleHeader 
                 game={props.game}
+                handleCancelClick={props.handleCancelClick}
                 />            
             <UserCard 
                 playerTwoUser={props.game.players[1]}

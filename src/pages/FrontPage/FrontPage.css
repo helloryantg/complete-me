@@ -56,7 +56,7 @@
 }
 
 .FrontPage .instructions {
-    background-color: #20B279;
+    background-color: #ED7D54;
     font-size: 180%;
 }
 
@@ -73,7 +73,7 @@
     color: #ED7D54;
     font-size: 200%;
     font-weight: 700;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .welcome {

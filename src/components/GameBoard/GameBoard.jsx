@@ -50,20 +50,22 @@ class GameBoard extends Component {
         });
 
         return (
-            <div className="GameBoard" onKeyDown={this.handleKeyDown}>
-                <div className="fp-letter-container">
-                    {this.props.game.players[this.props.game.turnIdx].id === this.props.user._id ? null : <GameBoardModal game={this.props.game}/>}
-                    
-                    {mergedList.map(w => w.split('').map((letter, idx) => idx === w.length - 1 ? null : <div key={idx} className={`letter ${idx ? '' : 'first-last'}`}>{letter}</div>))}
-                    
-                    {game.currentWord.split('').map((letter, idx) => idx === letter.length - 1 ? 
-                        <div key={idx} className="letter first-last">{letter}</div> 
-                        :
-                        <div key={idx} className="letter">{letter}</div>
+            this.props.game.players[this.props.game.turnIdx].id === this.props.user._id && this.props.game.players[this.props.game.turnIdx].time ?
+                <div className="GameBoard" onKeyDown={this.handleKeyDown}>
+                    <div className="fp-letter-container">
+                        {mergedList.map(w => w.split('').map((letter, idx) => idx === w.length - 1 ? null : <div key={idx} className={`letter ${idx ? '' : 'first-last'}`}>{letter}</div>))}
+                        {game.currentWord.split('').map((letter, idx) => idx === letter.length - 1 ? 
+                            <div key={idx} className="letter first-last">{letter}</div> 
+                            :
+                            <div key={idx} className="letter">{letter}</div>
                         )}
+                    </div>
+                    <input className="current-word" type="text" name="currentWord" onChange={this.handleChange} autoFocus/>
                 </div>
-                <input className="current-word" type="text" name="currentWord" onChange={this.handleChange} autoFocus/>
-            </div>
+                : 
+                <div className="GameBoard">
+                    <GameBoardModal game={this.props.game}/>
+                </div>
         );
     }
 }
