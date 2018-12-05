@@ -25,26 +25,26 @@ function fetchObjects(category) {
 }
 
 const challengesList = [
+  // {
+  //   text: 'Words that start and end with the same letter',
+  //   multiplier: 2,
+  //   color: 'DA5700',
+  //   code: 'SLT'
+  // },
+  // {
+  //   text: 'Words that are 7 letters long',
+  //   multiplier: 3,
+  //   color: '56A7FF',
+  //   code: 'SLL'
+  // },
+  // {
+  //   text: 'Words that are 3 letters long',
+  //   multiplier: 5,
+  //   color: 'DA5700',
+  //   code: 'TLL'
+  // },
   {
-    text: 'Words that start and end with the same letter',
-    multiplier: 2,
-    color: 'DA5700',
-    code: 'SLT'
-  },
-  {
-    text: 'Words that are 7 letters long',
-    multiplier: 3,
-    color: '56A7FF',
-    code: 'SLL'
-  },
-  {
-    text: 'Words that are 3 letters long',
-    multiplier: 5,
-    color: 'DA5700',
-    code: 'TLL'
-  },
-  {
-    text: 'Words that are 4 letters long',
+    text: 'DO NOT Use Words that are 4 letters long',
     multiplier: -2,
     color: 'DA5700',
     code: 'NEG'
@@ -55,12 +55,12 @@ const challengesList = [
     color: '56A7FF',
     code: 'WAD'
   },
-  {
-    text: 'Words that describe ghosts',
-    multiplier: 4,
-    color: '008E7D',
-    code: 'WDG'
-  }
+  // {
+  //   text: 'Words that describe ghosts',
+  //   multiplier: 4,
+  //   color: '008E7D',
+  //   code: 'WDG'
+  // }
 ];
     
 module.exports = {
