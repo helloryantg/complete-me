@@ -5,7 +5,7 @@ import socket from '../../utils/socket';
 
 class GameBoard extends Component {
     handleKeyDown = (e) => {
-        if (this.props.game.turnIdx !== this.props.game.players) {
+        if (this.props.game.turnIdx !== this.props.game.players[this.props.game.turnIdx]) {
             if (e.key === 'Enter') {
                 socket.emit('onEnter');
             } else if (e.keyCode >= 65 && e.keyCode <= 90) {
