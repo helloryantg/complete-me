@@ -1,7 +1,7 @@
 const Game = require('./models/game');
 var rp = require('request-promise-native');
 
-const API_URL = 'http://api.datamuse.com/words?'
+const API_URL = 'https://api.datamuse.com/words?'
 
 let io;
 var games = {};
@@ -130,31 +130,44 @@ module.exports = {
         if (!game) return;
         if (game.players[game.turnIdx].time > 0) game.players[game.turnIdx].time--;
         io.to(game.id).emit('gameData', game);
-        
+        if (!game.players[0] && !game.players[1]) {
+        delete games[socket.gameId];
+        }
       });
       
-      socket.on('cancelGame', async function(user) {
-        var game = games[socket.gameId];
-        delete game;
-        await io.emit('gameData');
+      socket.on('cancelGame', function(user) {
+        delete games[socket.gameId];
+        io.to(socket.gameId).emit('gameData');
       });
 
       socket.on('onEnter', async function() {
         var game = games[socket.gameId];
         
-        var options = {
-          uri: `${API_URL}sp=${game.currentWord}`,
-          headers: { 'User-Agent': 'Request-Promise'},
-          json: true 
-        };
-        var words = await rp(options).then(items => items);
+        var mergedList = [];
+        game.players[0].wordList.forEach(function(wordObj, idx) {
+            mergedList.push(wordObj.word);
+            if (game.players[1].wordList[idx]) mergedList.push(game.players[1].wordList[idx].word);
+        });
 
-        if (words[0].word === game.currentWord.toLowerCase()) {
-          checkChallenges(game);
-        } else {
+        if (mergedList.find(word => word === game.currentWord)) {
           game.currentWord = game.currentWord[0];
           io.to(game.id).emit('gameData', game);
           game.save();
+        } else {
+          var options = {
+            uri: `${API_URL}sp=${game.currentWord}`,
+            headers: { 'User-Agent': 'Request-Promise'},
+            json: true 
+          };
+          var words = await rp(options).then(items => items);
+  
+          if (words[0].word === game.currentWord.toLowerCase()) {
+            checkChallenges(game);
+          } else {
+            game.currentWord = game.currentWord[0];
+            io.to(game.id).emit('gameData', game);
+            game.save();
+          }
         }
       });
 
