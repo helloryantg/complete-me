@@ -10,8 +10,8 @@ Your timer is paused during your opponent's turn.
 Quickly submit your words because if a player runs out of time, the other player may start and complete their own words until their timer runs out.
 Higher score per round, wins!
 
-<img src="./public/images/main-page.png" height="300" width="200">
-<img src="./public/images/waiting-page.png" height="300" width="200">
+<img src="./public/images/main-page.png">
+<img src="./public/images/waiting-page.png">
 
 ## Technologies Used 
 - NodeJS 
@@ -36,8 +36,8 @@ Higher score per round, wins!
 - Create a game and send the link to your opponent.
 - Paste the link inside the Game Code input and press Join Game.
 
-<img src="./public/images/game-page.png" height="300" width="200">
-<img src="./public/images/game-over.png" height="300" width="200">
+<img src="./public/images/game-page.png">
+<img src="./public/images/game-over.png">
 
 ### Next Steps / Unsolved Problems
 - Challenge page to choose available opponents
