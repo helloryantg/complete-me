@@ -3,8 +3,6 @@ import './FrontPage.css';
 import { Link } from 'react-router-dom';
 import gameService from '../../utils/gameService';
 
-
-
 class FrontPage extends Component {
     constructor(props) {
         super(props);
@@ -75,7 +73,6 @@ class FrontPage extends Component {
                 </div>
             </div>
         </div>;
-    
 
         return (
             <div className="FrontPage">

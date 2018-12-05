@@ -13,7 +13,6 @@ class LoginPage extends Component {
   }
 
   handleChange = (e) => {
-    // TODO: implement in an elegant way
     this.setState({
         [e.target.name] : e.target.value
     });
@@ -22,12 +21,10 @@ class LoginPage extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     userService.login(this.state)
-      // successfully signed up - show GamePage
       .then(() => {
         this.props.handleSignupOrLogin();
         this.props.history.push('/');
       })
-      // invalid user data
       .catch(err => alert('Invalid Credentials'));
   }
 

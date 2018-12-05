@@ -24,8 +24,6 @@ class App extends Component {
     }
   }
 
-  /*----- Create/Join Game -----*/
-
   handleCreateGameClick = (e) => {
     e.preventDefault();
     gameService.createGame(this.state.user);
@@ -36,9 +34,6 @@ class App extends Component {
     gameService.cancelGame(this.state.user);
   }
   
-
-/*----- Login/Logout -----*/
-
   handleLogout = () => {
     userService.logout();
     this.setState({user: null});
@@ -47,8 +42,6 @@ class App extends Component {
   handleSignupOrLogin = () => {
     this.setState({user: userService.getUser()});
   }
-
-  /*----- Socket.io -----*/
 
   sendGameData = () => {
     socket.emit('gameData', this.state.game);
@@ -60,7 +53,6 @@ class App extends Component {
     let user = userService.getUser();
     this.setState({user});
 
-    // get active game from server if there is one
     if (user) socket.emit('getActiveGame', user._id);
 
     socket.on('gameData', (game) => {
@@ -73,13 +65,12 @@ class App extends Component {
     let page;
 
     if (game && game.players.length === 2 && !game.players[0].time && !game.players[1].time) {
-      // renders when there are 2 players and run has run out for both of them
       page = <GameResultsPage 
         game={this.state.game}
         user={this.state.user}
+        handleCancelClick={this.handleCancelClick}
       />
     } else if (game && game.players.length === 2) {
-      // renders when there are 2 players and now the game is in play
       page = <GamePage 
         game={this.state.game}
         user={this.state.user}

@@ -133,10 +133,10 @@ module.exports = {
         
       });
       
-      socket.on('cancelGame', function(user) {
+      socket.on('cancelGame', async function(user) {
         var game = games[socket.gameId];
         delete game;
-        io.emit('gameData');
+        await io.emit('gameData');
       });
 
       socket.on('onEnter', async function() {
@@ -198,55 +198,44 @@ function checkChallenges(game) {
     switch (challenge.code) {
       case 'SLT':
       if (word[0] === word[word.length - 1]) {
-            wordStruct.score += baseScore * challenge.multiplier,
+            wordStruct.score += baseScore * challenge.multiplier - baseScore,
             wordStruct.challenges.push(challenge)
         } 
         break;
 
       case 'SLL':
         if (word.length === 7) {
-            wordStruct.score += baseScore * challenge.multiplier,
+            wordStruct.score += baseScore * challenge.multiplier - baseScore,
             wordStruct.challenges.push(challenge)
         }
         break;
         
         case 'TLL':
           if (word.length === 3) {
-            wordStruct.score += baseScore * challenge.multiplier,
+            wordStruct.score += baseScore * challenge.multiplier - baseScore,
             wordStruct.challenges.push(challenge)
           }
           break;
 
         case 'NEG':
           if (word.length === 4) {
-            wordStruct.score += baseScore * challenge.multiplier,
+            wordStruct.score += baseScore * challenge.multiplier - baseScore,
             wordStruct.challenges.push(challenge)
           }
           break;
           
       case 'WAD':
-        // dogs
         var dog = dogs.find(d => d.word.toUpperCase() === word);
         if (!dog) return;
-        
-        console.log('WAD');
-        wordStruct = {
-          word: game.currentWord,
-          score: wordStruct.score += baseScore * challenge.multiplier,
-          challenges: wordStruct.challenges.push(challenge)
-        }
+          wordStruct.score += baseScore * challenge.multiplier - baseScore,
+          wordStruct.challenges.push(challenge)
         break;
       
       case 'WDG':
-        // ghosts
         var ghost = ghosts.find(g => g.word.toUpperCase() === word);
         if (!ghost) return;
-        console.log('WDG');
-        wordStruct = {
-          word: game.currentWord,
-          score: wordStruct.score += baseScore * challenge.multiplier,
-          challenges: wordStruct.challenges.push(challenge)
-        }   
+          wordStruct.score += baseScore * challenge.multiplier - baseScore,
+          wordStruct.challenges.push(challenge)        
         break;
     }
     
@@ -254,7 +243,9 @@ function checkChallenges(game) {
   var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
   wordList.push(wordStruct);
   game.currentWord = game.currentWord[game.currentWord.length - 1];
-  game.turnIdx = game.turnIdx ? 0 : 1;
+  if (game.players[game.turnIdx].time > 0) game.turnIdx = game.turnIdx ? 0 : 1;
+  if (!game.players[0].time) game.turnIdx = 1;
+  if (!game.players[1].time) game.turnIdx = 0;
   io.to(game.id).emit('gameData', game);
   game.save();
 }

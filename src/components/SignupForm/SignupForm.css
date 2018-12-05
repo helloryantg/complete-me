@@ -1,0 +1,39 @@
+.SignupForm {
+    height: 70vh;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.SignupForm .fp-letter-container {
+    margin: 40px 0;
+}
+
+.SignupForm input {
+    height: 40px;
+    width: 230px;
+    font-size: 130%;
+    margin: 8px 0;
+    border-radius: 6px;
+}
+
+.SignupForm .links {
+    background-color: #FCEFD3;
+    width: 240px;
+    height: 60px;
+    margin: 20px auto -10px; 
+    border-radius: 10px;
+    border-bottom: 4px solid #EDA754;
+    color: #ED7D54;
+    font-size: 200%;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SignupForm .signup {
+    background-color: #20B279;
+    color: #FCEFD3;
+}

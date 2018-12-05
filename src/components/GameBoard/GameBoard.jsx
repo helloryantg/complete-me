@@ -4,12 +4,9 @@ import GameBoardModal from '../GameBoardModal/GameBoardModal';
 import socket from '../../utils/socket';
 
 class GameBoard extends Component {
-    
     handleKeyDown = (e) => {
-        // current player
         if (e.key === 'Enter') {
             socket.emit('onEnter');
-                    
         } else if (e.keyCode >= 65 && e.keyCode <= 90) {
             socket.emit('characterPressed', e.key.toUpperCase());            
         } else if (e.keyCode === 8) {
@@ -54,11 +51,7 @@ class GameBoard extends Component {
                 <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                     <div className="fp-letter-container">
                         {mergedList.map(w => w.split('').map((letter, idx) => idx === w.length - 1 ? null : <div key={idx} className={`letter ${idx ? '' : 'first-last'}`}>{letter}</div>))}
-                        {game.currentWord.split('').map((letter, idx) => idx === letter.length - 1 ? 
-                            <div key={idx} className="letter first-last">{letter}</div> 
-                            :
-                            <div key={idx} className="letter">{letter}</div>
-                        )}
+                        {game.currentWord.split('').map((letter, idx) => idx === letter.length - 1 ? <div key={idx} className="letter first-last">{letter}</div> : <div key={idx} className="letter">{letter}</div>)}
                     </div>
                     <input className="current-word" type="text" name="currentWord" onChange={this.handleChange} autoFocus/>
                 </div>
