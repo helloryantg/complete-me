@@ -15,6 +15,7 @@ Higher score per round, wins!
 
 ## Technologies Used 
 - NodeJS 
+- Heroku
 - ExpressJS
 - ReactJS
 - Socket.io
@@ -40,7 +41,7 @@ Higher score per round, wins!
 <img src="./public/images/game-over.png">
 
 ### Next Steps / Unsolved Problems
-- Challenge page to choose available opponents
-- Don't allow to use the same word in the same game
-- Add more challenges
-- Make mobile responsive
+- Challenge room to choose active opponents
+- Add more challenges to future updates
+- Mobile responsiveness
+- Polish colors to differentiate components
