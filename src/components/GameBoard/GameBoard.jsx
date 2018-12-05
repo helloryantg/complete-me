@@ -24,7 +24,7 @@ class GameBoard extends Component {
     countDown = () => {
         socket.emit('countDown');
         
-        if (!this.props.game.players[0].time || !this.props.game.players[1].time) {
+        if (!this.props.game.players[0].time && !this.props.game.players[1].time) {
             clearInterval(this.timer);
         }
     }
@@ -50,7 +50,7 @@ class GameBoard extends Component {
         });
 
         return (
-            this.props.game.players[this.props.game.turnIdx].id === this.props.user._id && this.props.game.players[this.props.game.turnIdx].time ?
+            this.props.game.players[this.props.game.turnIdx].id === this.props.user._id ?
                 <div className="GameBoard" onKeyDown={this.handleKeyDown}>
                     <div className="fp-letter-container">
                         {mergedList.map(w => w.split('').map((letter, idx) => idx === w.length - 1 ? null : <div key={idx} className={`letter ${idx ? '' : 'first-last'}`}>{letter}</div>))}

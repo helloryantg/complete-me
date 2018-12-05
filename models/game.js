@@ -17,7 +17,7 @@ const wordSchema = new Schema({
 const playerSchema = new Schema({
     id: String,
     name: String,
-    time: {type: Number, default: 60},
+    time: {type: Number, default: 0},
     wordList: [wordSchema],
 });
 

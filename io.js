@@ -128,8 +128,9 @@ module.exports = {
       socket.on('countDown', function() {
         var game = games[socket.gameId];
         if (!game) return;
-        game.players[game.turnIdx].time--;
+        if (game.players[game.turnIdx].time > 0) game.players[game.turnIdx].time--;
         io.to(game.id).emit('gameData', game);
+        
       });
       
       socket.on('cancelGame', function(user) {
@@ -197,41 +198,29 @@ function checkChallenges(game) {
     switch (challenge.code) {
       case 'SLT':
       if (word[0] === word[word.length - 1]) {
-          wordStruct = {
-            word: game.currentWord,
-            score: wordStruct.score += baseScore * challenge.multiplier,
-            challenges: wordStruct.challenges.push(challenge)
-          };
+            wordStruct.score += baseScore * challenge.multiplier,
+            wordStruct.challenges.push(challenge)
         } 
         break;
 
       case 'SLL':
         if (word.length === 7) {
-          wordStruct = {
-            word: game.currentWord,
-            score: wordStruct.score += baseScore * challenge.multiplier,
-            challenges: wordStruct.challenges.push(challenge)
-          }
+            wordStruct.score += baseScore * challenge.multiplier,
+            wordStruct.challenges.push(challenge)
         }
         break;
         
         case 'TLL':
           if (word.length === 3) {
-            wordStruct = {
-              word: game.currentWord,
-              score: wordStruct.score += baseScore * challenge.multiplier,
-              challenges: wordStruct.challenges.push(challenge)
-            }
+            wordStruct.score += baseScore * challenge.multiplier,
+            wordStruct.challenges.push(challenge)
           }
           break;
 
         case 'NEG':
           if (word.length === 4) {
-            wordStruct = {
-              word: game.currentWord,
-              score: wordStruct.score += baseScore * challenge.multiplier,
-              challenges: wordStruct.challenges.push(challenge)
-            }
+            wordStruct.score += baseScore * challenge.multiplier,
+            wordStruct.challenges.push(challenge)
           }
           break;
           

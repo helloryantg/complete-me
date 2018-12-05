@@ -2,6 +2,9 @@ import React from 'react';
 import './GameResultsPage.css';
 
 const GameResultsPage = props => {
+    var playerOne = props.game.players[0].wordList.reduce((acc, word) => acc + word.score, 0);
+    var playerTwo = props.game.players[1].wordList.reduce((acc, word) => acc + word.score, 0);
+
     return (
         <div className="GameResultsPage">
             <div className="fp-letter-container">
@@ -17,13 +20,16 @@ const GameResultsPage = props => {
                 <div className="first-last letter">R</div>
             </div>
 
-            {props.game.player[0].wordList.reduce((acc, word) => acc + word.score, 0) 
-                > 
-            props.game.player[1].wordList.reduce((acc, word) => acc + word.score, 0) 
-                ? 
-            <p>Player 1 Wins!</p>
+            {playerOne > playerTwo ? 
+                <div className="winner">
+                    <p>Player 1 Wins!</p>
+                    <p>{playerOne}</p>
+                </div>
                 :
-            <p>Player 2 Wins</p>   
+                <div className="winner">
+                    <p>Player 2 Wins</p>   
+                    <p>{playerTwo}</p>
+                </div>
             }
         </div>
     );

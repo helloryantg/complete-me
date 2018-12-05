@@ -4,3 +4,7 @@
     flex-flow: column;
     align-items: center;
 }
+
+.GameResultsPage .winner {
+    border: 1px solid black;
+}

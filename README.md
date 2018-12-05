@@ -33,4 +33,7 @@ If a player runs out of time, the other player may start and complete their own 
 [Trello Board](https://trello.com/b/tjasIU3z/complete-me)
 
 ### Getting Started
-[Click to play!]()
+[Click to play!](https://complete-me-multiplayer.herokuapp.com/)
+- Create an account by pressing signup or press login to begin playing.
+- Create a game and send the link to your opponent.
+- Paste the link inside the Game Code input and press Join Game.
