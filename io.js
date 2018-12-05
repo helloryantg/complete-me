@@ -5,24 +5,24 @@ const API_URL = 'http://api.datamuse.com/words?'
 
 let io;
 var games = {};
-// var dogs;
-// var ghosts;
+var dogs;
+var ghosts;
 
-// (async function() {
-//   dogs = await fetchObjects('dogs');
-//   ghosts = await fetchObjects('ghosts');
-// })();
+(async function() {
+  dogs = await fetchObjects('dogs');
+  ghosts = await fetchObjects('ghosts');
+})();
 
-// function fetchObjects(category) {
-//   var options = {
-//     uri: `${API_URL}rel_trg=${category}`,
-//     headers: { 'User-Agent': 'Request-Promise'},
-//     json: true
-//   }
-//   return rp(options)
-//     .then(items => items)
-//     .catch(err => console.log(err));
-// }
+function fetchObjects(category) {
+  var options = {
+    uri: `${API_URL}rel_trg=${category}`,
+    headers: { 'User-Agent': 'Request-Promise'},
+    json: true
+  }
+  return rp(options)
+    .then(items => items)
+    .catch(err => console.log(err));
+}
 
 const challengesList = [
   {
@@ -48,19 +48,19 @@ const challengesList = [
     multiplier: -2,
     color: 'DA5700',
     code: 'NEG'
+  },
+  {
+    text: 'Words strongly associated with dogs',
+    multiplier: 3,
+    color: '56A7FF',
+    code: 'WAD'
+  },
+  {
+    text: 'Words that describe ghosts',
+    multiplier: 4,
+    color: '008E7D',
+    code: 'WDG'
   }
-  // {
-  //   text: 'Words strongly associated with dogs',
-  //   multiplier: 3,
-  //   color: '56A7FF',
-  //   code: 'WAD'
-  // },
-  // {
-  //   text: 'Words that describe ghosts',
-  //   multiplier: 4,
-  //   color: '008E7D',
-  //   code: 'WDG'
-  // }
 ];
     
 module.exports = {
@@ -224,36 +224,35 @@ function checkChallenges(game) {
           }
           break;
           
-      // case 'WAD':
-      //   // dogs
-      //   var dog = dogs.find(d => d.word.toUpperCase() === word);
-      //   if (!dog) return;
+      case 'WAD':
+        // dogs
+        var dog = dogs.find(d => d.word.toUpperCase() === word);
+        if (!dog) return;
         
-      //   console.log('WAD');
-      //   wordStruct = {
-      //     word: game.currentWord,
-      //     score: wordStruct.score += baseScore * challenge.multiplier,
-      //     challenges: wordStruct.challenges.push(challenge)
-      //   }
-      //   break;
+        console.log('WAD');
+        wordStruct = {
+          word: game.currentWord,
+          score: wordStruct.score += baseScore * challenge.multiplier,
+          challenges: wordStruct.challenges.push(challenge)
+        }
+        break;
       
-      // case 'WDG':
-      //   // ghosts
-      //   var ghost = ghosts.find(g => g.word.toUpperCase() === word);
-      //   if (!ghost) return;
-      //   console.log('WDG');
-      //   wordStruct = {
-      //     word: game.currentWord,
-      //     score: wordStruct.score += baseScore * challenge.multiplier,
-      //     challenges: wordStruct.challenges.push(challenge)
-      //   }   
-      //   break;
+      case 'WDG':
+        // ghosts
+        var ghost = ghosts.find(g => g.word.toUpperCase() === word);
+        if (!ghost) return;
+        console.log('WDG');
+        wordStruct = {
+          word: game.currentWord,
+          score: wordStruct.score += baseScore * challenge.multiplier,
+          challenges: wordStruct.challenges.push(challenge)
+        }   
+        break;
     }
     
   });
   var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
   wordList.push(wordStruct);
-  console.log(wordStruct);
   game.currentWord = game.currentWord[game.currentWord.length - 1];
   game.turnIdx = game.turnIdx ? 0 : 1;
   io.to(game.id).emit('gameData', game);

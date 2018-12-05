@@ -3,8 +3,16 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+    justify-content: space-around;
 }
 
 .GameResultsPage .winner {
-    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #FCEFD3;
+}
+
+.GameResultsPage .winner p {
+    font-size: 320%;
+    color: #20B279;
 }
