@@ -137,7 +137,7 @@ module.exports = {
       
       socket.on('cancelGame', function(user) {
         delete games[socket.gameId];
-        io.to(socket.gameId).emit('gameData');
+        io.to(socket.gameId).emit('gameData', null);
       });
 
       socket.on('onEnter', async function() {
