@@ -1,7 +1,7 @@
 # Complete-Me!
 
-## Introduction
-Multiplayer word completion game that tests your English vocabulary.
+## Introduction / Game Rules
+2-Player word completion game that tests your English vocabulary.
 Complete the word using the last letter of the previous word.
 Longer words get more points. 1 Point for every letter in between.
 Match words to the randomized word challenges and acquire score multipliers!
@@ -14,19 +14,19 @@ Higher score per round, wins!
 <img src="./public/images/waiting-page.png">
 
 ## Technologies Used 
-- NodeJS 
+- Node.js 
 - Heroku
-- ExpressJS
-- ReactJS
+- Express
+- React
 - Socket.io
-- HTML / CSS
-- Javascript
+- HTML5 / CSS
+- JavaScript
 - Datamuse API
-- JSON Web Tokens
+- JSON Web Tokens / Bcrypt
 - MongoDB / Mongoose / mLab
 
 ### API
-[Datamust API](https://www.datamuse.com/api/)
+[Datamuse API](https://www.datamuse.com/api/)
 
 ### Complete-Me Trello
 [Trello Board](https://trello.com/b/tjasIU3z/complete-me)
