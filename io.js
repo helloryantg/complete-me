@@ -16,7 +16,7 @@ var ghosts;
 function fetchObjects(category) {
   var options = {
     uri: `${API_URL}rel_trg=${category}`,
-    headers: { 'User-Agent': 'Request-Promise'},
+    headers: { 'User-Agent': 'Request-Promise' },
     json: true
   }
   return rp(options)
