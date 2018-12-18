@@ -1,12 +1,12 @@
 const Game = require('./models/game');
-var rp = require('request-promise-native');
+const rp = require('request-promise-native');
 
 const API_URL = 'https://api.datamuse.com/words?'
 
 let io;
-var games = {};
-var dogs;
-var ghosts;
+let games = {};
+let dogs;
+let ghosts;
 
 (async function() {
   dogs = await fetchObjects('dogs');
@@ -14,7 +14,7 @@ var ghosts;
 })();
 
 function fetchObjects(category) {
-  var options = {
+  let options = {
     uri: `${API_URL}rel_trg=${category}`,
     headers: { 'User-Agent': 'Request-Promise' },
     json: true
@@ -69,7 +69,7 @@ module.exports = {
     io.on('connection', function(socket) {
 
       socket.on('getActiveGame', function(userId) {
-        var game = Object.values(games).find(g => g.players.some(p => p.id === userId));
+        let game = Object.values(games).find(g => g.players.some(p => p.id === userId));
         if (game) {
           socket.gameId = game._id;
           socket.join(game._id);
@@ -78,12 +78,12 @@ module.exports = {
       });
       
       socket.on('createGame', async function(user) {
-        var game = new Game();
+        let game = new Game();
         game.players.push({
           name: user.name,
           id: user._id,
         });
-        var randomLetter = generateRandomLetter();
+        let randomLetter = generateRandomLetter();
         game.currentWord += randomLetter;
         shuffleChallenges(challengesList);
         game.challenges.push(...[challengesList[0], challengesList[1]]);
@@ -97,7 +97,7 @@ module.exports = {
       });
       
       socket.on('joinGame', function(user, gameCode) {
-        var game = games[gameCode];
+        let game = games[gameCode];
         game.players.push({
           name: user.name,
           id: user._id
@@ -109,24 +109,24 @@ module.exports = {
       });
 
       socket.on('characterPressed', function(character) {
-        var game = games[socket.gameId];
+        let game = games[socket.gameId];
         if (!game) return;
         game.currentWord += character;
         io.to(game.id).emit('gameData', game);
       });
       
       socket.on('onBackspace', function() {
-        var game = games[socket.gameId];
+        let game = games[socket.gameId];
         if (!game) return;
         if (game.currentWord.length < 2) return;
-        var removedLast = game.currentWord.substring(0, game.currentWord.length - 1);
+        let removedLast = game.currentWord.substring(0, game.currentWord.length - 1);
         game.currentWord = removedLast;
         io.to(game.id).emit('gameData', game);
         game.save();
       });
 
       socket.on('countDown', function() {
-        var game = games[socket.gameId];
+        let game = games[socket.gameId];
         if (!game) return;
         if (game.players[game.turnIdx].time > 0) game.players[game.turnIdx].time--;
         io.to(game.id).emit('gameData', game);
@@ -141,9 +141,9 @@ module.exports = {
       });
 
       socket.on('onEnter', async function() {
-        var game = games[socket.gameId];
+        let game = games[socket.gameId];
         
-        var mergedList = [];
+        let mergedList = [];
         game.players[0].wordList.forEach(function(wordObj, idx) {
             mergedList.push(wordObj.word);
             if (game.players[1].wordList[idx]) mergedList.push(game.players[1].wordList[idx].word);
@@ -154,12 +154,12 @@ module.exports = {
           io.to(game.id).emit('gameData', game);
           game.save();
         } else {
-          var options = {
+          let options = {
             uri: `${API_URL}sp=${game.currentWord}`,
             headers: { 'User-Agent': 'Request-Promise'},
             json: true 
           };
-          var words = await rp(options).then(items => items);
+          let words = await rp(options).then(items => items);
   
           if (words[0].word === game.currentWord.toLowerCase()) {
             checkChallenges(game);
@@ -177,18 +177,18 @@ module.exports = {
 };
 
 generateRandomLetter = () => {
-  var letter;
-  var characters = "aaabbccddeeeffgghhiiijjkkkllmmnnooppqrrssttuuvvwwxyz"
-  var randomNumber = Math.floor(Math.random() * characters.length);
+  let letter;
+  let characters = "aaabbccddeeeffgghhiiijjkkkllmmnnooppqrrssttuuvvwwxyz"
+  let randomNumber = Math.floor(Math.random() * characters.length);
   letter = characters[randomNumber];
   return letter.toUpperCase();
 }
 
 // Fisher-Yates shuffle
 shuffleChallenges = (challenges) => {
-  var currentIdx = challenges.length;
-  var tempValue;
-  var randomIdx;
+  let currentIdx = challenges.length;
+  let tempValue;
+  let randomIdx;
   
   while (currentIdx !== 0) {
     randomIdx = Math.floor(Math.random() * currentIdx);
@@ -200,8 +200,8 @@ shuffleChallenges = (challenges) => {
 }
 
 function checkChallenges(game) {
-  var word = game.currentWord;
-  var baseScore = game.currentWord.length - 2;
+  let word = game.currentWord;
+  let baseScore = game.currentWord.length - 2;
   let wordStruct = {
     word: game.currentWord,
     score: baseScore,
@@ -238,14 +238,14 @@ function checkChallenges(game) {
           break;
           
       case 'WAD':
-        var dog = dogs.find(d => d.word.toUpperCase() === word);
+        let dog = dogs.find(d => d.word.toUpperCase() === word);
         if (!dog) return;
           wordStruct.score += baseScore * challenge.multiplier - baseScore,
           wordStruct.challenges.push(challenge)
         break;
       
       case 'WDG':
-        var ghost = ghosts.find(g => g.word.toUpperCase() === word);
+        let ghost = ghosts.find(g => g.word.toUpperCase() === word);
         if (!ghost) return;
           wordStruct.score += baseScore * challenge.multiplier - baseScore,
           wordStruct.challenges.push(challenge)        
@@ -253,7 +253,7 @@ function checkChallenges(game) {
     }
     
   });
-  var wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
+  let wordList = game.turnIdx ? game.players[1].wordList : game.players[0].wordList;
   wordList.push(wordStruct);
   game.currentWord = game.currentWord[game.currentWord.length - 1];
   if (game.players[game.turnIdx].time > 0) game.turnIdx = game.turnIdx ? 0 : 1;
