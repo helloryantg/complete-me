@@ -29,3 +29,18 @@
     align-items: center;
     overflow-y: auto;
 }
+
+.GameBoard .letter {
+    animation: slide-down .4s ease;
+}
+
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-160px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

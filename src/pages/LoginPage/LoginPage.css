@@ -35,7 +35,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transform: all .2s;
 }
+
+.LoginPage .links:hover {
+    transform: scale(1.2);
+}
+
 
 .LoginPage .login {
     background-color: #20B279;
