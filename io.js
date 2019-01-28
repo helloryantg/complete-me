@@ -8,6 +8,7 @@ let games = {};
 let dogs;
 let ghosts;
 
+// Fetch categories from the api url
 (async function() {
   dogs = await fetchObjects('dogs');
   ghosts = await fetchObjects('ghosts');
@@ -24,6 +25,7 @@ function fetchObjects(category) {
     .catch(err => console.log(err));
 }
 
+// List of challenges. Only two are chosen at random per game
 const challengesList = [
   {
     text: 'Words that start and end with the same letter',
@@ -68,6 +70,7 @@ module.exports = {
     io = require('socket.io')(httpServer);
     io.on('connection', function(socket) {
 
+      // Find active game using userId
       socket.on('getActiveGame', function(userId) {
         let game = Object.values(games).find(g => g.players.some(p => p.id === userId));
         if (game) {
@@ -77,6 +80,7 @@ module.exports = {
         io.emit('gameData', game);
       });
       
+      // Create a new game and push the user to the game object
       socket.on('createGame', async function(user) {
         let game = new Game();
         game.players.push({
@@ -96,6 +100,7 @@ module.exports = {
         });
       });
       
+      // Find current active game with the gameCode and push new user to the game object
       socket.on('joinGame', function(user, gameCode) {
         let game = games[gameCode];
         game.players.push({
